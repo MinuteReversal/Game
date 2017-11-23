@@ -235,4 +235,12 @@ Game.prototype.listenerKeyDown = function () {
             }
         }
     });
+
+    window.addEventListener("keyup", function (evt) {
+
+    });
+
+    window.addEventListener("touchdown", function (evt) {
+
+    });
 };
