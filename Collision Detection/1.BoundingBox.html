@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <style>
+        canvas {
+            border: 1px solid orange;
+        }
+    </style>
+    <canvas width="300" height="200"></canvas>
+    <script>
+        var canvas = document.querySelector("canvas");
+        var ctx = canvas.getContext("2d");
+
+        var Box = function (options) {
+            this.x = 0;
+            this.y = 0;
+            this.width = 40;
+            this.height = 40;
+            this.color = "black";
+
+            if (typeof options === "object") {
+                Object.assign(this, options);
+            }
+        };
+
+        Box.prototype.draw = function () {
+            var me = this;
+            ctx.fillStyle = me.color;
+            ctx.fillRect(me.x, me.y, me.width, me.height);
+        };
+
+        var box1 = new Box({ color: "black" });
+        var box2 = new Box({ color: "red", x: 150, y: 50 });
+
+        var frame = function (time) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            box1.draw();
+            box2.draw();
+            if (handleEgdeCollisions(box1, box2)) write("Collision");
+            requestAnimationFrame(frame);
+        };
+        requestAnimationFrame(frame);
+
+        function write(txt) {
+            ctx.fillStyle = "blue";
+            ctx.fillText(txt, 10, canvas.height - 10);
+        }
+
+        function handleEgdeCollisions(rect1, rect2) {
+            if (rect1.x < rect2.x + rect2.width &&
+                rect1.x + rect1.width > rect2.x &&
+                rect1.y < rect2.y + rect2.height &&
+                rect1.height + rect1.y > rect2.y) {
+                return true
+            } else {
+                return false
+            }
+        }
+
+        document.body.addEventListener("keydown", function (evt) {
+            switch (evt.key) {
+                case "Up":
+                    box1.y -= 10;
+                    break;
+                case "Right":
+                    box1.x += 10;
+                    break;
+                case "Left":
+                    box1.x -= 10;
+                    break;
+                case "Down":
+                    box1.y += 10;
+                    break;
+            }
+        });
+
+    </script>
+</body>
+
+</html>

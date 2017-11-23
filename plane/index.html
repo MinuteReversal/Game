@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,user-scalable=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Plane</title>
+    <script src="model/background.js"></script>
+    <script src="model/bullet1.js"></script>
+    <script src="model/bullet2.js"></script>
+    <script src="model/plane.js"></script>
+    <script src="model/enemy1.js"></script>
+    <script src="level/level1.js"></script>
+    <script src="lib/game.js"></script>
+</head>
+
+<body style="margin:0;">
+    <script>
+        var game = new Game({
+            width: 640,
+            height: 1136,
+            resource: "resource/resource.png",
+            map: level1
+        });
+    </script>
+</body>
+
+</html>
