@@ -12,6 +12,8 @@ var Game = function (options) {
     var me = this;
     me.isPause = false;
     me.isDrawBox = true;
+    me.keyboard = null;
+    me.mouse = null;
     me.player1 = null;
     me.player2 = null;
     me.list = [];
@@ -19,7 +21,11 @@ var Game = function (options) {
     me.canvas = me.createCanvas(options.width, options.height);
     me.context = me.canvas.getContext("2d");
 
-    me.listenerKeyDown();
+    if (options) {
+        if (options.keyboard) me.keyboard = options.keyboard;
+        if (options.mouse) me.mouse = options.mouse;
+    }
+
 
     me.loadResources(options.resource).then(function (image) {
         me.resources = image;
@@ -42,6 +48,7 @@ Game.prototype.loop = function () {
     var me = this;
     var fn = function () {
         if (!me.isPause) {
+            me.keyboardWatch();
             me.predicate();
             me.draw();
         }
@@ -206,41 +213,15 @@ Game.prototype.isEgdeCollision = function (rect1, rect2) {
     }
 };
 
-Game.prototype.listenerKeyDown = function () {
+Game.prototype.keyboardWatch = function () {
     var me = this;
-    window.addEventListener("keydown", function (evt) {
-        if (me.player1) {
-            var player1 = me.player1;
-            switch (evt.keyCode) {
-                //w
-                case 87:
-                    player1.position.y -= player1.speed;
-                    break;
-                //a
-                case 65:
-                    player1.position.x -= player1.speed;
-                    break;
-                //s
-                case 83:
-                    player1.position.y += player1.speed;
-                    break;
-                //d
-                case 68:
-                    player1.position.x += player1.speed;
-                    break;
-                //f
-                case 74:
-                    me.list = me.list.concat(player1.fire());
-                    break;
-            }
-        }
-    });
-
-    window.addEventListener("keyup", function (evt) {
-
-    });
-
-    window.addEventListener("touchdown", function (evt) {
-
-    });
+    var kbd = me.keyboard;
+    if (me.player1) {
+        var player1 = me.player1;
+        if (kbd.KeyW) player1.position.y -= player1.speed;
+        if (kbd.KeyA) player1.position.x -= player1.speed;
+        if (kbd.KeyS) player1.position.y += player1.speed;
+        if (kbd.KeyD) player1.position.x += player1.speed;
+        if (kbd.KeyJ) me.list = me.list.concat(player1.fire());
+    }
 };
