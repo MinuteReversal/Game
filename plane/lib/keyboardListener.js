@@ -1,14 +1,14 @@
 ﻿/**
  * @author : ReversalMinute
  * @mail   : mailzy@vip.qq.com
- * @time   :20160324
+ * @date   :20160324
  */
 
 /**
- * @class  KeyboardLisener
+ * @class  KeyboardListener
  * @returns {keyboard} 
  */
-function KeyboardLisener() {
+function KeyboardListener() {
     var me = this;
 
     me.keys = {
@@ -143,7 +143,7 @@ function KeyboardLisener() {
  * @param {Bool} isKeyDown 
  * @returns {void} 
  */
-KeyboardLisener.prototype.setKeyStatus = function (keyboardEvent, isKeyDown) {
+KeyboardListener.prototype.setKeyStatus = function (keyboardEvent, isKeyDown) {
     var keys = this.keys;
     //Backspace
     if (keyboardEvent.keyCode === 8) { keys.Backspace = isKeyDown; }

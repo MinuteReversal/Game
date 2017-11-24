@@ -46,11 +46,16 @@ Game.prototype.createCanvas = function (width, height) {
 
 Game.prototype.loop = function () {
     var me = this;
-    var fn = function () {
+    var fn = function (timeStamp) {
         if (!me.isPause) {
-            me.keyboardWatch();
-            me.predicate();
-            me.draw();
+            try {
+                me.keyboardWatch(timeStamp);
+                me.predicate(timeStamp);
+                me.draw(timeStamp);
+            } catch (ex) {
+                me.isPause = true;
+                alert("frame:" + ex.message);
+            }
         }
         requestAnimationFrame(fn);
     }
@@ -65,8 +70,9 @@ Game.prototype.draw = function () {
             item.onFrame(now);
         }
 
-        var center = item.getCenter();
+        if (typeof item.getCenter === "undefined") continue;
 
+        var center = item.getCenter();
         me.context.save();
         me.context.translate(center.x, center.y);
         me.context.rotate(item.rotate * Math.PI / 180);

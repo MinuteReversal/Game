@@ -1,14 +1,15 @@
 ﻿/**
  * @author : ReversalMinute
  * @mail   : mailzy@vip.qq.com
- * @time   : 20160324
+ * @date   : 2017-11-24
+ * @docs   : https://developer.mozilla.org/en-US/docs/Web/API/TouchEvent
  */
 
 /**
- * @class MouseLisener
- * @returns {mouse} 
+ * @class TouchLisener
+ * @returns {touch} 
  */
-function MouseLisener() {
+function TouchLisener() {
     var me = this;
     me.mouse = {
         Left: false,
@@ -42,7 +43,7 @@ function MouseLisener() {
     return me.mouse;
 }
 
-MouseLisener.prototype.setMouseStatus = function (mouseEvent, isButtonDown) {
+TouchLisener.prototype.setMouseStatus = function (mouseEvent, isButtonDown) {
     var me = this;
     var mouse = me.mouse;
     switch (mouseEvent.which) {
