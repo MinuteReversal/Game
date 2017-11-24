@@ -12,25 +12,15 @@
  */
 function TouchListener() {
     var me = this;
-    me.mouse = {
-        Left: false,
-        LeftDownPosition: { X: 0, Y: 0 },
-        Middle: false,
-        MiddleDownPosition: { X: 0, Y: 0 },
-        Right: false,
-        RightDownPosition: { X: 0, Y: 0 },
-        Wheel: 0,
-        X: 0,
-        Y: 0
-    };
-
+    me.Touchs =[];
+    
     window.addEventListener("touchstart", function (touchEvent) {
         touchEvent.preventDefault();
-        me.setMouseStatus(mouseEvent, true);
+        me.setTouchStatus(mouseEvent, true);
     });
     window.addEventListener("touchend", function (touchEvent) {
         touchEvent.preventDefault();
-        me.setMouseStatus(mouseEvent, false);
+        me.setTouchStatus(mouseEvent, false);
     });
     window.addEventListener("touchcancel", function (touchEvent) {
         touchEvent.preventDefault();
