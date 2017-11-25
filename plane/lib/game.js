@@ -47,6 +47,7 @@ Game.prototype.createCanvas = function (width, height) {
 Game.prototype.loop = function () {
     var me = this;
     var fn = function (timeStamp) {
+        if (me.keyboard.Enter) me.isPause = !me.isPause;
         if (!me.isPause) {
             try {
                 me.keyboardWatch(timeStamp);
@@ -113,13 +114,14 @@ Game.prototype.predicate = function () {
         var o = me.getCollision(item);
         var box = item.getBox();
 
-        if (item instanceof Enemy1) {
-            // 敌人中弹
-            if (o instanceof Bullet1 || o instanceof Bullet2) {
-                removeList.push(o);
-                removeList.push(item);
-            }
-            else if (o === me.player1) {
+
+        // 敌人中弹
+        if (item instanceof Enemy1 && (o instanceof Bullet1 || o instanceof Bullet2)) {
+            removeList.push(o);
+            removeList.push(item);
+        }
+        else if (item instanceof Enemy1) {
+            if (o === me.player1) {
                 me.isPause = true;
             }
             else if (box.leftTop.y > 1136) {
@@ -131,6 +133,9 @@ Game.prototype.predicate = function () {
                 removeList.push(item);
             }
         }
+
+
+
     }
 
     for (var j = 0, item; item = removeList[j]; j++) {

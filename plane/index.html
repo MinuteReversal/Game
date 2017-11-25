@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Plane</title>
+    <script src="lib/linq.js"></script>
     <script src="model/background.js"></script>
     <script src="model/bullet1.js"></script>
     <script src="model/bullet2.js"></script>
@@ -20,8 +21,8 @@
 <body style="margin:0;">
     <script>
         var game = new Game({
-            keyboard: new KeyboardLisener(),
-            mouse: new MouseLisener(),
+            keyboard: new KeyboardListener(),
+            mouse: new MouseListener(),
             width: 640,
             height: 1136,
             resource: "resource/resource.png",
