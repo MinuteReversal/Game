@@ -146,24 +146,8 @@ Game.prototype.predicate = function () {
 Game.prototype.changeMap = function (map) {
     var me = this;
     me.list = [];
-    for (var i = 0, item; i < map.plan.length; i++) {
-        var item = map.plan[i];
-        if (item.add) {
-            if (item.time === 0) {
-                me.addObject(item.add);
-            }
-            else {
-                (function (item) {
-                    setTimeout(function () {
-                        me.addObject(item.add);
-                    }, item.time);
-                })(item);
-            }
-        }
-        if (item.remove) {
-            me.removeObject(item.remove);
-        }
-    }
+    me.addObject(map.background);
+    
 };
 
 Game.prototype.addObject = function (model) {
