@@ -24,6 +24,7 @@ var Game = function (options) {
     if (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
         if (options.mouse) me.mouse = options.mouse;
+        if (options.map) me.map = options.map;
     }
 
 
@@ -50,6 +51,7 @@ Game.prototype.loop = function () {
         if (me.keyboard.Enter) me.isPause = !me.isPause;
         if (!me.isPause) {
             try {
+                me.generateEnermy(timeStamp);
                 me.keyboardWatch(timeStamp);
                 me.predicate(timeStamp);
                 me.draw(timeStamp);
@@ -61,6 +63,14 @@ Game.prototype.loop = function () {
         requestAnimationFrame(fn);
     }
     requestAnimationFrame(fn);
+};
+
+Game.prototype.generateEnermy = function (timeStamp) {
+    var me = this;
+    var e = me.map.generate(timeStamp);
+    if (e) {
+        me.list.push(e);
+    }
 };
 
 Game.prototype.draw = function () {
@@ -147,7 +157,7 @@ Game.prototype.changeMap = function (map) {
     var me = this;
     me.list = [];
     me.addObject(map.background);
-    
+
 };
 
 Game.prototype.addObject = function (model) {
