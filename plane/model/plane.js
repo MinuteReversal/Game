@@ -24,6 +24,7 @@ var Plane = function (options) {
     me.rotate = 0;
     me.bulletType = 1;
     me.speed = 3;
+    me.firedTime = Date.now();
     if (options) {
         for (p in options) {
             me[p] = options[p];
@@ -60,15 +61,17 @@ Plane.prototype.getCenter = function () {
 
 Plane.prototype.fire = function () {
     var me = this;
+    if ((Date.now() - me.firedTime) < 0.2 * 1000) return [];
+    me.firedTime = Date.now();
     if (me.bulletType === 1) {
-        var p =  me.getCenter();
+        var p = me.getCenter();
         p.y = me.position.y;
         return [new Bullet1({ position: p })];
     }
     return [
         new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2 } }),
         new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2 } })
-    ];
+    ];  
 };
 
 Plane.prototype.destroy = function () {
