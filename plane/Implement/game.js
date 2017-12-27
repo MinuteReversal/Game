@@ -1,7 +1,8 @@
 /**
- * @author:zhy
- * @date:20171108
- * docs:https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/strokeRect
+ * @author   : zhy
+ * @datetime : 20171108
+ * @file     : game.js
+ * @link     : https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/strokeRect
  */
 
 /**

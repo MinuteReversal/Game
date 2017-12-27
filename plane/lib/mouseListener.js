@@ -1,7 +1,7 @@
 ﻿/**
- * @author : ReversalMinute
- * @mail   : mailzy@vip.qq.com
- * @date   : 20160324
+ * @author    : ReversalMinute
+ * @mail      : mailzy@vip.qq.com
+ * @datetime  : 20160324
  */
 
 /**
