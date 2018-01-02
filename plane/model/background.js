@@ -5,14 +5,14 @@
  */
 
 var Background = function () {
-    AModel.call(this, arguments);
+    AModel.apply(this, arguments);
     var me = this;
     me.width = 640;
     me.height = 1136;
-    me.sWidth = 640;
-    me.sHeight = 1136;
+    me.sWidth = me.width
+    me.sHeight = me.height;
 };
 
-
+Background.prototype=Object.create(AModel.prototype);
 
 var background = new Background();

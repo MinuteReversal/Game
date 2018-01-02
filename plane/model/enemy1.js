@@ -4,7 +4,7 @@
  */
 
 var Enemy1 = function (options) {
-    AModel.call(this, arguments);
+    AModel.apply(this, arguments);
     var me = this;
     me.width = 63;
     me.height = 48;

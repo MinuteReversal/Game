@@ -8,10 +8,12 @@
  * @param {object} options 
  */
 var Plane = function (options) {
-    AModel.call(this, arguments);
+    AModel.apply(this, arguments);
     var me = this;
     me.width = 128;
     me.height = 162;
+    me.sWidth = me.width
+    me.sHeight = me.height;
     me.sPosition.x = 640;
     me.bulletType = 1;
     me.speed = 3;

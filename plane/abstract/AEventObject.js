@@ -5,7 +5,7 @@
  */
 
 var AEventObject = function () {
-    IEventObject.call(this, arguments);
+    IEventObject.apply(this, arguments);
     this.listeners = [];
 };
 

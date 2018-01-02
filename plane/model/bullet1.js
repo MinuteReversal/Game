@@ -3,7 +3,7 @@
  * @date:20171108
  */
 var Bullet1 = function (options) {
-    AModel.call(this, arguments);
+    AModel.apply(this, arguments);
     var me = this;
     me.width = 13;
     me.height = 28;

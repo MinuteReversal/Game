@@ -3,10 +3,12 @@
  * @date:20171108
  */
 var Bullet2 = function (options) {
-    AModel.call(this, arguments);
+    AModel.apply(this, arguments);
     var me = this;
     me.width = 13;
     me.height = 28;
+    me.sWidth = me.width
+    me.sHeight = me.height;
     me.sPosition = {
         x: 1200 - 13,
         y: me.height

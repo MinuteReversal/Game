@@ -6,7 +6,7 @@
 
 var AModel = function () {
     var me = this;
-    AEventObject.call(me, arguments);
+    AEventObject.apply(me, arguments);
     me.width = 0;
     me.height = 0;
     me.position = {

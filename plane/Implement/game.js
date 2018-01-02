@@ -158,7 +158,6 @@ Game.prototype.changeMap = function (map) {
     var me = this;
     me.list = [];
     me.addObject(map.background);
-
 };
 
 Game.prototype.addObject = function (model) {
