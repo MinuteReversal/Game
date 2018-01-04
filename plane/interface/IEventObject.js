@@ -26,9 +26,9 @@ IEventObject.prototype.addEventListener = function (type, listener) { throw new 
 IEventObject.prototype.removeEventListener = function (type,listener) { throw new Error("not implement"); };
 
 /**
- * @method dispactchEvent
+ * @method dispatchEvent
  * @param {string} type 
  * @param {object} event 
  * @link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/dispatchEvent
  */
-IEventObject.prototype.dispactchEvent = function (type, event) { throw new Error("not implement"); };
+IEventObject.prototype.dispatchEvent = function (type, event) { throw new Error("not implement"); };

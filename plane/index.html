@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width,user-scalable=no" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Plane</title>
+    <script src="lib/polyfill/Object.assign.js"></script>
     <script src="lib/linq.js"></script>
     <script src="interface/IEventObject.js"></script>
     <script src="abstract/AEventObject.js"></script>
@@ -18,6 +19,8 @@
     <script src="level/level1.js"></script>
     <script src="lib/keyboardListener.js"></script>
     <script src="lib/mouseListener.js"></script>
+    <script src="lib/sound.js"></script>
+    <script src="Implement/resource.js"></script>
     <script src="Implement/game.js"></script>
 </head>
 
@@ -26,9 +29,16 @@
         var game = new Game({
             keyboard: new KeyboardListener(),
             mouse: new MouseListener(),
+            resource: new Resource({
+                list: [
+                    { key: "bg", src: "resource/resource.png" },
+                    { key: "bgm", src: "resource/game_music.mp3" },
+                    { key: "bullet", src: "resource/bullet.mp3" }
+                ]
+            }),
+            sound: new Sound(),
             width: 640,
             height: 1136,
-            resource: "resource/resource.png",
             map: level1
         });
     </script>

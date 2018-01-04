@@ -15,6 +15,8 @@ var Game = function (options) {
     me.isDrawBox = true;
     me.keyboard = null;
     me.mouse = null;
+    me.sound = null;
+    me.resource = null;
     me.player1 = null;
     me.player2 = null;
     me.list = [];
@@ -26,15 +28,18 @@ var Game = function (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
         if (options.mouse) me.mouse = options.mouse;
         if (options.map) me.map = options.map;
+        if (options.sound) me.sound = options.sound;
+        if (options.resource) me.resource = options.resource;
     }
 
-
-    me.loadResources(options.resource).then(function (image) {
-        me.resources = image;
+    me.resource.addEventListener("complete", function (evt) {
+        console.log("load complete");
         me.changeMap(options.map);
         me.addPlayer1();
+        me.sound.play(me.resource.get("bgm").binary.slice(), true);
         me.loop();
     });
+    me.resource.loadAll();
 };
 
 Game.prototype.createCanvas = function (width, height) {
@@ -49,7 +54,11 @@ Game.prototype.createCanvas = function (width, height) {
 Game.prototype.loop = function () {
     var me = this;
     var fn = function (timeStamp) {
-        if (me.keyboard.Enter) me.isPause = !me.isPause;
+
+        if (me.keyboard.Enter) {
+            me.isPause = !me.isPause;
+        }
+
         if (!me.isPause) {
             try {
                 me.generateEnermy(timeStamp);
@@ -61,6 +70,10 @@ Game.prototype.loop = function () {
                 alert("frame:" + ex.message);
             }
         }
+
+        if (me.isPause && !me.sound.isPause) me.sound.pasue();
+        if (!me.isPause && me.sound.isPause) me.sound.continue();
+
         requestAnimationFrame(fn);
     }
     requestAnimationFrame(fn);
@@ -90,7 +103,7 @@ Game.prototype.draw = function () {
         me.context.rotate(item.rotate * Math.PI / 180);
         me.context.translate(-item.width / 2, -item.height / 2);
         me.context.drawImage(
-            me.resources,
+            me.resource.get("bg").entity,
             item.sPosition.x,
             item.sPosition.y,
             item.sWidth,
@@ -171,26 +184,13 @@ Game.prototype.removeObject = function (model) {
     me.list.splice(index, 1);
 };
 
-Game.prototype.loadResources = function (resource) {
-    var me = this;
-    var image = new Image();
-    var then = function () { };
-    var p = {
-        then: function (fn) {
-            then = fn;
-        },
-        catch: function () { }
-    };
-    image.addEventListener("load", function () {
-        then(this);
-    });
-    image.src = resource;
-    return p;
-};
-
 Game.prototype.addPlayer1 = function () {
     var me = this;
-    me.player1 = new Plane({ position: { x: 320, y: 600 } });
+    var plane = new Plane({ position: { x: 320, y: 600, sound: me.sound } });
+    plane.addEventListener("fire", function (evt) {
+        me.sound.play(me.resource.get("bullet").binary.slice());
+    });
+    me.player1 = plane;
     me.addObject(me.player1);
 };
 

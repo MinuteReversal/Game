@@ -26,6 +26,7 @@ Plane.prototype.fire = function () {
     var me = this;
     if ((Date.now() - me.firedTime) < 0.2 * 1000) return [];
     me.firedTime = Date.now();
+    me.dispatchEvent("fire", me);
     if (me.bulletType === 1) {
         var p = me.getCenter();
         p.y = me.position.y;

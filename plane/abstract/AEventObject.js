@@ -22,7 +22,7 @@ AEventObject.prototype.addEventListener = function (type, listener) {
     var me = this;
     me.listeners.push({
         type: type,
-        listeners: listeners
+        listeners: listener
     });
 };
 
@@ -58,12 +58,12 @@ AEventObject.prototype.removeEventListener = function (type, listener) {
 };
 
 /**
- * @override dispactchEvent
- * @method dispactchEvent
+ * @override dispatchEvent
+ * @method dispatchEvent
  * @param {string} type 
  * @param {object} event 
  */
-AEventObject.prototype.dispactchEvent = function (type, event) {
+AEventObject.prototype.dispatchEvent = function (type, event) {
     var me = this;
     for (var i = 0, item; item = me.listeners[i]; i++) {
         if (item.type === type) {
