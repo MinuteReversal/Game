@@ -18,6 +18,10 @@ var Plane = function (options) {
     me.bulletType = 1;
     me.speed = 3;
     me.status = "fine";
+    me.name = "plane";
+
+    me.addEventListener("frame", function (evt) { me.onFrame(evt); });
+    me.addEventListener("collision", function (evt) { me.onCollision(evt); });
 };
 
 Plane.prototype = Object.create(AModel.prototype);
@@ -31,16 +35,20 @@ Plane.prototype.fire = function () {
     if (me.bulletType === 1) {
         var p = me.getCenter();
         p.y = me.position.y;
-        return [new Bullet1({ position: p })];
+        return [new Bullet1({ position: p, owner: me })];
     }
     return [
-        new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2 } }),
-        new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2 } })
+        new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me } }),
+        new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me } })
     ];
 };
 
-Plane.prototype.onFrame = function (time) {
+Plane.prototype.onFrame = function (evn) {
     var me = this;
+    var o = me.getCollision(me);
+    if (o && o instanceof AEnemy) {
+        me.dispatchEvent("explode", { target: me });
+    }
 };
 
 Plane.prototype.normalAnimation = function () {
@@ -49,11 +57,6 @@ Plane.prototype.normalAnimation = function () {
 };
 
 Plane.prototype.destroyAnimation = function () {
-    var me = this;
-
-};
-
-Plane.prototype.onExplode = function () {
     var me = this;
 
 };

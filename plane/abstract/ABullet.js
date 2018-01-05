@@ -1,7 +1,5 @@
-var ABullet = function (owner) {
+var ABullet = function () {
     AModel.apply(this, arguments);
-    this.owner = owner;
 }
 
 ABullet.prototype = Object.create(AModel.prototype);
-

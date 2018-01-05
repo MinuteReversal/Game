@@ -5,8 +5,8 @@
  */
 
 var AModel = function () {
+    AEventObject.apply(this, arguments);
     var me = this;
-    AEventObject.apply(me, arguments);
     me.width = 0;
     me.height = 0;
     me.position = {
@@ -70,10 +70,6 @@ AModel.prototype.getCenter = function () {
 
 AModel.prototype.onFrame = function () {
     var me = this;
-    var o = me.getCollision(me);
-    if (o) {
-        o.dispatchEvent("collision", { target: me });
-    }
 };
 
 AModel.prototype.getCollision = function (o) {

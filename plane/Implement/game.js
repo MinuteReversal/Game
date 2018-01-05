@@ -11,15 +11,15 @@
  */
 var Game = function (options) {
     var me = this;
-    me.isPause = true;
-    me.isDrawBox = true;
+    me.isPause = false;
+    me.isDrawBox = false;
     me.keyboard = null;
     me.mouse = null;
     me.sound = dataBus.sound;
-    me.resource = dataBus.reource;
+    me.resource = dataBus.resource;
     me.player1 = null;
     me.player2 = null;
-    me.list = dataBus.list;
+    me.score = 0;
     me.resources = null;
     me.canvas = me.createCanvas(options.width, options.height);
     me.context = me.canvas.getContext("2d");
@@ -31,7 +31,6 @@ var Game = function (options) {
     }
 
     me.resource.addEventListener("complete", function (evt) {
-        console.log("load complete");
         me.changeMap(options.map);
         me.addPlayer1();
         me.sound.play(me.resource.get("bgm").binary.slice(), true);
@@ -58,15 +57,12 @@ Game.prototype.loop = function () {
         }
 
         if (!me.isPause) {
-            try {
-                me.generateEnermy(timeStamp);
-                me.keyboardWatch(timeStamp);
-                me.predicate(timeStamp);
-                me.draw(timeStamp);
-            } catch (ex) {
-                me.isPause = true;
-                alert("frame:" + ex.message);
-            }
+
+            me.generateEnermy(timeStamp);
+            me.keyboardWatch(timeStamp);
+            me.update(timeStamp);
+            me.draw(timeStamp);
+
         }
 
         if (me.isPause && !me.sound.isPause) me.sound.pause();
@@ -81,14 +77,14 @@ Game.prototype.generateEnermy = function (timeStamp) {
     var me = this;
     var e = me.map.generate(timeStamp);
     if (e) {
-        me.list.push(e);
+        dataBus.add(e);
     }
 };
 
 Game.prototype.draw = function () {
     var me = this;
     var now = Date.now;
-    for (var i = 0, item; item = me.list[i]; i++) {
+    for (var i = 0, item; item = dataBus.list[i]; i++) {
         if (item.onFrame) {
             item.onFrame(now);
         }
@@ -126,67 +122,28 @@ Game.prototype.draw = function () {
 /**
  * 判定逻辑
  */
-Game.prototype.predicate = function () {
+Game.prototype.update = function (timeStamp) {
     var me = this;
-    var removeList = [];
-
-    for (var i = 0, item; item = me.list[i]; i++) {
-        if (!item.getBox) continue;
-
-        var o = me.getCollision(item);
-        var box = item.getBox();
-
-
-        // 敌人中弹
-        if (item instanceof Enemy1) {
-            if (o instanceof Bullet1 || o instanceof Bullet2) {
-                removeList.push(o);
-                removeList.push(item);
-            }
-            else if (o === me.player1) {
-                me.isPause = true;
-            }
-            else if (box.leftTop.y > 1136) {
-                removeList.push(item);
-            }
-        }
-        else if (item instanceof Bullet1 || item instanceof Bullet2) {
-            if (box.leftTop.y < 0) {
-                removeList.push(item);
-            }
-        }
+    for (var i = 0, item; item = dataBus.list[i]; i++) {
+        if (item instanceof Background) continue;
+        item.dispatchEvent("frame", { target: me, timeStamp: timeStamp });
     }
-
-    for (var j = 0, item; item = removeList[j]; j++) {
-        var index = me.list.indexOf(item);
-        if (index > -1) {
-            me.list.splice(index, 1);
-        }
-    }
+    dataBus.execRemove();
 };
 
 Game.prototype.changeMap = function (map) {
     var me = this;
-    me.list = [];
-    me.addObject(map.background);
-};
-
-Game.prototype.addObject = function (model) {
-    var me = this;
-    me.list.push(model);
-};
-
-Game.prototype.removeObject = function (model) {
-    var me = this;
-    var index = me.list.indexOf(model);
-    me.list.splice(index, 1);
+    dataBus.add(map.background);
 };
 
 Game.prototype.addPlayer1 = function () {
     var me = this;
     var plane = new Plane({ position: { x: 320, y: 600 } });
+    plane.addEventListener("explode", function (evt) {
+        console.log("explode");
+    });
     me.player1 = plane;
-    me.addObject(me.player1);
+    dataBus.add(me.player1);
 };
 
 Game.prototype.keyboardWatch = function () {
@@ -198,6 +155,6 @@ Game.prototype.keyboardWatch = function () {
         if (kbd.KeyA) player1.position.x -= player1.speed;
         if (kbd.KeyS) player1.position.y += player1.speed;
         if (kbd.KeyD) player1.position.x += player1.speed;
-        if (kbd.KeyJ) me.list = me.list.concat(player1.fire());
+        if (kbd.KeyJ) dataBus.list = dataBus.list.concat(player1.fire());
     }
 };

@@ -22,7 +22,9 @@ var level1 = {
         var me = this;
         if (++me.count === 30) {
             me.count = 0;
-            return new Enemy1({ position: { x: me.getRandomArbitrary(0, 640), y: 0 } });
+            var e = new Enemy1({ position: { x: me.getRandomArbitrary(0, 640), y: 0 } });
+            e.y = -e.height;
+            return e;
         }
         return null;
     }

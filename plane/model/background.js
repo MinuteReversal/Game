@@ -11,8 +11,9 @@ var Background = function () {
     me.height = 1136;
     me.sWidth = me.width
     me.sHeight = me.height;
+    me.name = "Background";
 };
 
-Background.prototype=Object.create(AModel.prototype);
+Background.prototype = Object.create(AModel.prototype);
 
 var background = new Background();
