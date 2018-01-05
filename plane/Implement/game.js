@@ -11,7 +11,7 @@
  */
 var Game = function (options) {
     var me = this;
-    me.isPause = false;
+    me.isPause = true;
     me.isDrawBox = true;
     me.keyboard = null;
     me.mouse = null;
@@ -71,7 +71,7 @@ Game.prototype.loop = function () {
             }
         }
 
-        if (me.isPause && !me.sound.isPause) me.sound.pasue();
+        if (me.isPause && !me.sound.isPause) me.sound.pause();
         if (!me.isPause && me.sound.isPause) me.sound.continue();
 
         requestAnimationFrame(fn);
