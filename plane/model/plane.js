@@ -17,6 +17,7 @@ var Plane = function (options) {
     me.sPosition.x = 640;
     me.bulletType = 1;
     me.speed = 3;
+    me.status = "fine";
 };
 
 Plane.prototype = Object.create(AModel.prototype);
@@ -26,7 +27,7 @@ Plane.prototype.fire = function () {
     var me = this;
     if ((Date.now() - me.firedTime) < 0.2 * 1000) return [];
     me.firedTime = Date.now();
-    me.dispatchEvent("fire", me);
+
     if (me.bulletType === 1) {
         var p = me.getCenter();
         p.y = me.position.y;
@@ -38,6 +39,21 @@ Plane.prototype.fire = function () {
     ];
 };
 
-Plane.prototype.destroy = function () {
+Plane.prototype.onFrame = function (time) {
+    var me = this;
+};
+
+Plane.prototype.normalAnimation = function () {
+    var me = this;
+
+};
+
+Plane.prototype.destroyAnimation = function () {
+    var me = this;
+
+};
+
+Plane.prototype.onExplode = function () {
+    var me = this;
 
 };

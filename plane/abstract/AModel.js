@@ -68,4 +68,31 @@ AModel.prototype.getCenter = function () {
     };
 };
 
-AModel.prototype.onFrame = function () { };
+AModel.prototype.onFrame = function () {
+    var me = this;
+    var o = me.getCollision(me);
+    if (o) {
+        o.dispatchEvent("collision", { target: me });
+    }
+};
+
+AModel.prototype.getCollision = function (o) {
+    var me = this;
+    for (var i = 0, item; item = dataBus.list[i]; i++) {
+        if (item instanceof Background) continue;
+        if (item === o) continue;
+        if (me.isEgdeCollision(item, o)) return item;
+    }
+    return null;
+};
+
+AModel.prototype.isEgdeCollision = function (rect1, rect2) {
+    if (rect1.position.x < rect2.position.x + rect2.width &&
+        rect1.position.x + rect1.width > rect2.position.x &&
+        rect1.position.y < rect2.position.y + rect2.height &&
+        rect1.height + rect1.position.y > rect2.position.y) {
+        return true;
+    } else {
+        return false;
+    }
+};

@@ -13,6 +13,8 @@ var Enemy1 = function (options) {
     me.sPosition.x = 640 + 128;
     me.rotate = 180;
     me.speed = 3;
+
+    me.addEventListener("explode", me.onExplode);
 };
 Enemy1.prototype = Object.create(AModel.prototype);
 
@@ -21,6 +23,6 @@ Enemy1.prototype.onFrame = function (time) {
     me.position.y += me.speed;
 };
 
-Enemy1.prototype.destroy = function () {
-
+Enemy1.prototype.onExplode = function () {
+    dataBus.sound.play(dataBus.resource.get("enemy1down").binary.slice());
 };

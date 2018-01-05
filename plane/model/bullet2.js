@@ -3,7 +3,7 @@
  * @date:20171108
  */
 var Bullet2 = function (options) {
-    AModel.apply(this, arguments);
+    ABullet.apply(this, arguments);
     var me = this;
     me.width = 13;
     me.height = 28;
@@ -14,9 +14,11 @@ var Bullet2 = function (options) {
         y: me.height
     };
     me.speed = 10;
+
+    dataBus.sound.play(dataBus.resource.get("bullet").binary.slice());
 };
 
-Bullet2.prototype = Object.create(AModel.prototype);
+Bullet2.prototype = Object.create(ABullet.prototype);
 
 Bullet2.prototype.onFrame = function (time) {
     var me = this;

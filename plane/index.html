@@ -9,9 +9,13 @@
     <script src="lib/polyfill/Object.assign.js"></script>
     <script src="lib/polyfill/Array.prototype.forEach.js"></script>
     <script src="lib/linq.js"></script>
+    <script src="lib/sound.js"></script>
+    <script src="Implement/resource.js"></script>
+    <script src="Implement/dataBus.js"></script>
     <script src="interface/IEventObject.js"></script>
     <script src="abstract/AEventObject.js"></script>
     <script src="abstract/AModel.js"></script>
+    <script src="abstract/ABullet.js"></script>
     <script src="model/background.js"></script>
     <script src="model/bullet1.js"></script>
     <script src="model/bullet2.js"></script>
@@ -20,24 +24,25 @@
     <script src="level/level1.js"></script>
     <script src="lib/keyboardListener.js"></script>
     <script src="lib/mouseListener.js"></script>
-    <script src="lib/sound.js"></script>
-    <script src="Implement/resource.js"></script>
     <script src="Implement/game.js"></script>
 </head>
 
 <body style="margin:0;">
     <script>
+        dataBus.resource.list = [
+            { key: "bg", src: "resource/resource.png" },
+            { key: "bgm", src: "resource/game_music.mp3" },
+            { key: "bullet", src: "resource/bullet.mp3" },
+            { key: "enemy1down", src: "resource/enemy1_down.mp3" },
+            { key: "enemy2down", src: "resource/enemy2_down.mp3" },
+            { key: "enemy2out", src: "resource/enemy2_out.mp3" },
+            { key: "enemy3down", src: "resource/enemy3_down.mp3" },
+            { key: "gameover", src: "resource/game_over.mp3" }
+        ];
+
         var game = new Game({
             keyboard: new KeyboardListener(),
             mouse: new MouseListener(),
-            resource: new Resource({
-                list: [
-                    { key: "bg", src: "resource/resource.png" },
-                    { key: "bgm", src: "resource/game_music.mp3" },
-                    { key: "bullet", src: "resource/bullet.mp3" }
-                ]
-            }),
-            sound: new Sound(),
             width: 640,
             height: 1136,
             map: level1

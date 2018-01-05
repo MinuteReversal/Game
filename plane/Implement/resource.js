@@ -122,7 +122,7 @@ Resource.prototype.load = function (key) {
 
             if (++me._loaded === me.list.length) {
                 me.isComplete = true;
-                me.dispatchEvent("complete", { list: me.list });
+                me.dispatchEvent("complete", { target: me });
             }
         });
     }

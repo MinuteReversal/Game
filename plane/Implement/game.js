@@ -15,11 +15,11 @@ var Game = function (options) {
     me.isDrawBox = true;
     me.keyboard = null;
     me.mouse = null;
-    me.sound = null;
-    me.resource = null;
+    me.sound = dataBus.sound;
+    me.resource = dataBus.reource;
     me.player1 = null;
     me.player2 = null;
-    me.list = [];
+    me.list = dataBus.list;
     me.resources = null;
     me.canvas = me.createCanvas(options.width, options.height);
     me.context = me.canvas.getContext("2d");
@@ -28,8 +28,6 @@ var Game = function (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
         if (options.mouse) me.mouse = options.mouse;
         if (options.map) me.map = options.map;
-        if (options.sound) me.sound = options.sound;
-        if (options.resource) me.resource = options.resource;
     }
 
     me.resource.addEventListener("complete", function (evt) {
@@ -186,33 +184,9 @@ Game.prototype.removeObject = function (model) {
 
 Game.prototype.addPlayer1 = function () {
     var me = this;
-    var plane = new Plane({ position: { x: 320, y: 600, sound: me.sound } });
-    plane.addEventListener("fire", function (evt) {
-        me.sound.play(me.resource.get("bullet").binary.slice());
-    });
+    var plane = new Plane({ position: { x: 320, y: 600 } });
     me.player1 = plane;
     me.addObject(me.player1);
-};
-
-Game.prototype.getCollision = function (o) {
-    var me = this;
-    for (var i = 0, item; item = me.list[i]; i++) {
-        if (item instanceof Background) continue;
-        if (item === o) continue;
-        if (me.isEgdeCollision(item, o)) return item;
-    }
-    return null;
-};
-
-Game.prototype.isEgdeCollision = function (rect1, rect2) {
-    if (rect1.position.x < rect2.position.x + rect2.width &&
-        rect1.position.x + rect1.width > rect2.position.x &&
-        rect1.position.y < rect2.position.y + rect2.height &&
-        rect1.height + rect1.position.y > rect2.position.y) {
-        return true;
-    } else {
-        return false;
-    }
 };
 
 Game.prototype.keyboardWatch = function () {
