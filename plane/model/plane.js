@@ -19,9 +19,8 @@ var Plane = function (options) {
     me.speed = 3;
     me.status = "fine";
     me.name = "plane";
-
+    me.lastAnimation = Date.now();
     me.addEventListener("frame", function (evt) { me.onFrame(evt); });
-    me.addEventListener("collision", function (evt) { me.onCollision(evt); });
 };
 
 Plane.prototype = Object.create(AModel.prototype);
@@ -35,25 +34,43 @@ Plane.prototype.fire = function () {
     if (me.bulletType === 1) {
         var p = me.getCenter();
         p.y = me.position.y;
-        return [new Bullet1({ position: p, owner: me })];
+        var b = new Bullet1({ position: p, owner: me });
+        b.position.x -= b.width / 2;
+        return [b];
     }
-    return [
-        new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me } }),
-        new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me } })
-    ];
+
+    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me } });
+    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me } });
+
+    b1.position.x -= b1.width / 2;
+    b2.position.x -= b2.width / 2;
+
+    return [b1, b2];
 };
 
-Plane.prototype.onFrame = function (evn) {
+/**
+ * @override
+ */
+Plane.prototype.onFrame = function (evt) {
     var me = this;
-    var o = me.getCollision(me);
-    if (o && o instanceof AEnemy) {
-        me.dispatchEvent("explode", { target: me });
+    AModel.prototype.onFrame.apply(this, arguments);//Call base onFrame
+
+    if (me.status === "fine") {
+        me.normalAnimation();
     }
 };
 
 Plane.prototype.normalAnimation = function () {
     var me = this;
-
+    if (Date.now() - me.lastAnimation > 0.5 * 1000) {
+        if (me.sPosition.y === 0) {
+            me.sPosition.y += me.height;
+        }
+        else {
+            me.sPosition.y -= me.height;
+        }
+        me.lastAnimation = Date.now();
+    }
 };
 
 Plane.prototype.destroyAnimation = function () {

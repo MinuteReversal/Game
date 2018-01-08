@@ -7,33 +7,62 @@ var Enemy1 = function (options) {
     AEnemy.apply(this, arguments);
     var me = this;
     me.width = 63;
-    me.height = 48;
+    me.height = 50;
     me.sWidth = me.width;
     me.sHeight = me.height;
     me.sPosition.x = 640 + 128;
     me.rotate = 180;
     me.speed = 3;
     me.name = "enemy1";
+    me.status = "fine";
+    me.explodeAnimationTotal = 3;
+    me.lastAnimation = 0;
 
-    me.addEventListener("collision", function (evt) { me.onExplode(evt); });
+    me.addEventListener("collision", function (evt) {
+        if (me.status === "fine") {
+            dataBus.sound.play(dataBus.resource.get("enemy1down").binary.slice());
+            me.status = "explode";
+        }
+    });
 };
 Enemy1.prototype = Object.create(AEnemy.prototype);
 
+/**
+ * @override
+ * @param {number} time 
+ */
 Enemy1.prototype.onFrame = function (time) {
     var me = this;
-    me.position.y += me.speed;
+
+    if (me.status === "fine") {
+        me.position.y += me.speed;
+    }
+
     if (me.position.y > 1136) {
         dataBus.remove(me);
     }
 
-    var o = me.getCollision(me);
-    if (o instanceof ABullet) {
-        me.onCollision();
+
+    if (me.status === "explode") {
+        me.explodeAnimation();
+    }
+
+    AEnemy.prototype.onFrame.apply(this, arguments);//call base onFrame
+};
+
+Enemy1.prototype.explodeAnimation = function () {
+    var me = this;
+    if (Date.now() - me.lastAnimation > 0.1 * 1000) {
+        if (me.sPosition.y === me.explodeAnimationTotal * me.height) {
+            me.onExplode();
+            return;
+        }
+        me.sPosition.y += me.height;
+        me.lastAnimation = Date.now();
     }
 };
 
-Enemy1.prototype.onCollision = function () {
+Enemy1.prototype.onExplode = function () {
     var me = this;
-    dataBus.sound.play(dataBus.resource.get("enemy1down").binary.slice());
     dataBus.remove(me);
 };

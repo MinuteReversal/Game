@@ -25,11 +25,11 @@
     <script src="level/level1.js"></script>
     <script src="lib/keyboardListener.js"></script>
     <script src="lib/mouseListener.js"></script>
-    <script src="lib/touchListener.js"></script>
     <script src="Implement/game.js"></script>
 </head>
 
 <body style="margin:0;">
+    <canvas></canvas>
     <script>
         dataBus.resource.list = [
             { key: "bg", src: "resource/resource.png" },
@@ -41,19 +41,43 @@
             { key: "enemy3down", src: "resource/enemy3_down.mp3" },
             { key: "gameover", src: "resource/game_over.mp3" }
         ];
+        dataBus.resource.loadAll();
 
-        try {
-            var game = new Game({
-                keyboard: new KeyboardListener(),
-                mouse: new MouseListener(),
-                touch: new TouchListener(),
-                width: 640,
-                height: 1136,
-                map: level1
-            });
-        } catch (ex) {
-            alert(ex.message);
+        var canvas = document.querySelector("canvas");
+        var context = canvas.getContext("2d");
+
+        var f = function () {
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            for (var i = 0, item; item = dataBus.list[i]; i++) {
+
+                if (typeof item.getCenter === "undefined") continue;
+
+                var center = item.getCenter();
+                context.save();
+                context.translate(center.x, center.y);
+                context.rotate(item.rotate * Math.PI / 180);
+                context.translate(-item.width / 2, -item.height / 2);
+                context.drawImage(
+                    dataBus.resource.get("bg").entity,
+                    item.sPosition.x,
+                    item.sPosition.y,
+                    item.sWidth,
+                    item.sHeight,
+                    0,
+                    0,
+                    item.width,
+                    item.height
+                );
+                context.restore();
+            }
+            requestAnimationFrame(f);
         }
+        requestAnimationFrame(f);
+        
+        setTimeout(() => {
+            dataBus.add(new Enemy1());        
+        }, (1000));
+    
     </script>
 </body>
 

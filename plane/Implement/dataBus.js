@@ -1,3 +1,7 @@
+/**
+ * @author zhy
+ * @datetime 20180108
+ */
 var DataBus = function () {
     this.sound = new Sound();
     this.resource = new Resource();
@@ -21,5 +25,9 @@ DataBus.prototype.execRemove = function (o) {
     }
 };
 
-
+DataBus.prototype.broadcast = function (eventName, eventObject) {
+    for (var i = 0, item; item = this.list[i]; i++) {
+        item.dispacthEvent(eventName, eventObject);
+    }
+};
 var dataBus = new DataBus();

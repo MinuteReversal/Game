@@ -17,9 +17,9 @@ Sound.prototype.play = function (arraybuffer, isLoop) {
     var me = this;
     if (me.isSupportAudioContext) {
         me.audioContext.decodeAudioData(arraybuffer, function (buffer) {
-            var bs = this.createBufferSource();
+            var bs = me.audioContext.createBufferSource();
             bs.buffer = buffer;
-            bs.connect(this.destination);
+            bs.connect(me.audioContext.destination);
             bs.loop = !!isLoop;
             bs.start();
             bs = undefined;
@@ -29,7 +29,7 @@ Sound.prototype.play = function (arraybuffer, isLoop) {
         var audio = new Audio();
         audio.loop = isLoop;
         audio.addEventListener("ended", function (evt) {
-            me.list.splice(me.list.indexOf(this), 1);
+            me.list.splice(me.list.indexOf(audio), 1);
         });
         audio.src = me.arraybufferToBase64(arraybuffer);
         me.list.push(audio);

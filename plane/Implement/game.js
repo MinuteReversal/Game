@@ -15,6 +15,7 @@ var Game = function (options) {
     me.isDrawBox = false;
     me.keyboard = null;
     me.mouse = null;
+    me.touch = null;
     me.sound = dataBus.sound;
     me.resource = dataBus.resource;
     me.player1 = null;
@@ -27,14 +28,20 @@ var Game = function (options) {
     if (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
         if (options.mouse) me.mouse = options.mouse;
+        if (options.touch) me.touch = options.touch;
         if (options.map) me.map = options.map;
     }
 
     me.resource.addEventListener("complete", function (evt) {
-        me.changeMap(options.map);
-        me.addPlayer1();
-        me.sound.play(me.resource.get("bgm").binary.slice(), true);
-        me.loop();
+        try {
+            me.changeMap(options.map);
+            me.addPlayer1();
+            //me.sound.play(me.resource.get("bgm").binary.slice(), true);
+            me.loop();
+        }
+        catch (ex) {
+            alert(ex.message);
+        }
     });
     me.resource.loadAll();
 };
@@ -58,11 +65,17 @@ Game.prototype.loop = function () {
 
         if (!me.isPause) {
 
-            me.generateEnermy(timeStamp);
-            me.keyboardWatch(timeStamp);
-            me.update(timeStamp);
-            me.draw(timeStamp);
-
+            try {
+                me.generateEnermy(timeStamp);
+                me.keyboardWatch(timeStamp);
+                me.touchWatch(timeStamp);
+                me.update(timeStamp);
+                me.draw(timeStamp);
+            }
+            catch (ex) {
+                me.isPause = true;
+                me.alert(ex.message);
+            }
         }
 
         if (me.isPause && !me.sound.isPause) me.sound.pause();
@@ -120,7 +133,7 @@ Game.prototype.draw = function () {
 };
 
 /**
- * 判定逻辑
+ * 每帧
  */
 Game.prototype.update = function (timeStamp) {
     var me = this;
@@ -138,9 +151,12 @@ Game.prototype.changeMap = function (map) {
 
 Game.prototype.addPlayer1 = function () {
     var me = this;
-    var plane = new Plane({ position: { x: 320, y: 600 } });
-    plane.addEventListener("explode", function (evt) {
-        console.log("explode");
+    var plane = new Plane();
+    plane.position.x = (me.canvas.width - plane.width) / 2;
+    plane.position.y = me.canvas.height - plane.height;
+
+    plane.addEventListener("collision", function (evt) {
+
     });
     me.player1 = plane;
     dataBus.add(me.player1);
@@ -156,5 +172,15 @@ Game.prototype.keyboardWatch = function () {
         if (kbd.KeyS) player1.position.y += player1.speed;
         if (kbd.KeyD) player1.position.x += player1.speed;
         if (kbd.KeyJ) dataBus.list = dataBus.list.concat(player1.fire());
+    }
+};
+
+Game.prototype.touchWatch = function () {
+    var me = this;
+    if (me.touch.touches.length) {
+        var touchPoint = me.touch.touches[0];
+        player1.position.x = touchPoint.x;
+        player1.position.y = touchPoint.y;
+        dataBus.list = dataBus.list.concat(player1.fire());
     }
 };
