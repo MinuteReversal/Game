@@ -68,13 +68,14 @@ Game.prototype.loop = function () {
             try {
                 me.generateEnermy(timeStamp);
                 me.keyboardWatch(timeStamp);
+                me.mouseWatch(timeStamp);
                 me.touchWatch(timeStamp);
                 me.update(timeStamp);
                 me.draw(timeStamp);
             }
             catch (ex) {
                 me.isPause = true;
-                me.alert(ex.message);
+                alert(ex.message);
             }
         }
 
@@ -177,10 +178,17 @@ Game.prototype.keyboardWatch = function () {
 
 Game.prototype.touchWatch = function () {
     var me = this;
-    if (me.touch.touches.length) {
-        var touchPoint = me.touch.touches[0];
-        player1.position.x = touchPoint.x;
-        player1.position.y = touchPoint.y;
+    if (me.touch.list.length) {
+        var touchPoint = me.touch.list[0];
+        var player1 = me.player1;
+        player1.position.x = touchPoint.x - player1.width / 2;
+        player1.position.y = touchPoint.y - player1.height / 2;
         dataBus.list = dataBus.list.concat(player1.fire());
+    }
+};
+
+Game.prototype.mouseWatch = function () {
+    var me = this;
+    if (me.mouse.Left) {
     }
 };

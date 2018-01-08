@@ -20,7 +20,7 @@ var Enemy1 = function (options) {
 
     me.addEventListener("collision", function (evt) {
         if (me.status === "fine") {
-            dataBus.sound.play(dataBus.resource.get("enemy1down").binary.slice());
+            //dataBus.sound.play(dataBus.resource.get("enemy1down").binary.slice());
             me.status = "explode";
         }
     });

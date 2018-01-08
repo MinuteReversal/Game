@@ -11,12 +11,12 @@
  */
 var TouchListener = function () {
     var me = this;
-    me.touches = [];
+    me.list = [];
 
     window.addEventListener("touchstart", function (evt) {
         evt.preventDefault();
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
-            if (find(item.identifier) === null) {
+            if (me.find(item.identifier) === null) {
                 me.list.push({
                     x: item.pageX,
                     y: item.pageY,
@@ -29,7 +29,7 @@ var TouchListener = function () {
     window.addEventListener("touchmove", function (evt) {
         evt.preventDefault();
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
-            var p = find(item.identifier);
+            var p = me.find(item.identifier);
             if (p) {
                 p.x = item.pageX;
                 p.y = item.pageY;
@@ -41,10 +41,10 @@ var TouchListener = function () {
         evt.preventDefault();
 
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
-            var storedTouch = find(item.identifier);
+            var storedTouch = me.find(item.identifier);
             if (storedTouch) {
-                var idx = list.indexOf(storedTouch);
-                list.splice(idx, 1);
+                var idx = me.list.indexOf(storedTouch);
+                me.list.splice(idx, 1);
             }
         }
     });
@@ -52,10 +52,10 @@ var TouchListener = function () {
     window.addEventListener("touchcancel", function (evt) {
         evt.preventDefault();
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
-            var storedTouch = find(item.identifier);
+            var storedTouch = me.find(item.identifier);
             if (storedTouch) {
                 var idx = list.indexOf(storedTouch);
-                list.splice(idx, 1);
+                me.list.splice(idx, 1);
             }
         }
     });
@@ -64,7 +64,7 @@ var TouchListener = function () {
 
 TouchListener.prototype.find = function (identifier) {
     var me = this;
-    for (var i = 0, item; item = me.touches[i]; i++) {
+    for (var i = 0, item; item = me.list[i]; i++) {
         if (item.identifier === identifier) return item;
     }
     return null;
