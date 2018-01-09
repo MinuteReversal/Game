@@ -23,16 +23,18 @@
     <script src="abstract/AEnemy.js"></script>
     <script src="model/enemy1.js"></script>
     <script src="level/level1.js"></script>
+    <script src="model/numberText.js"></script>
     <script src="lib/keyboardListener.js"></script>
     <script src="lib/mouseListener.js"></script>
     <script src="lib/touchListener.js"></script>
     <script src="Implement/game.js"></script>
 </head>
 
-<body style="margin:0;">
+<body style="margin:0;overflow:hidden;">
     <script>
         dataBus.resource.list = [
             { key: "bg", src: "resource/resource.png" },
+            { key: "number", src: "resource/number.png" },
             { key: "bgm", src: "resource/game_music.mp3" },
             { key: "bullet", src: "resource/bullet.mp3" },
             { key: "enemy1down", src: "resource/enemy1_down.mp3" },
@@ -42,18 +44,13 @@
             { key: "gameover", src: "resource/game_over.mp3" }
         ];
 
-        try {
-            var game = new Game({
-                keyboard: new KeyboardListener(),
-                mouse: new MouseListener(),
-                touch: new TouchListener(),
-                width: 640,
-                height: 1136,
-                map: level1
-            });
-        } catch (ex) {
-            alert(ex.message);
-        }
+        var game = new Game({
+            keyboard: new KeyboardListener(),
+            mouse: new MouseListener(),
+            touch: new TouchListener(),
+            width: innerWidth > 640 ? 640 : innerWidth,
+            height: innerHeight > 1136 ? 1136 : innerHeight
+        });
     </script>
 </body>
 

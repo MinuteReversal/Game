@@ -10,8 +10,9 @@
 var Plane = function (options) {
     AModel.apply(this, arguments);
     var me = this;
-    me.width = 128;
-    me.height = 162;
+    me.image = dataBus.resource.get("bg").entity;
+    me.width = 128 * me.scale;
+    me.height = 162 * me.scale;
     me.sWidth = me.width
     me.sHeight = me.height;
     me.sPosition.x = 640;
@@ -34,13 +35,13 @@ Plane.prototype.fire = function () {
     if (me.bulletType === 1) {
         var p = me.getCenter();
         p.y = me.position.y;
-        var b = new Bullet1({ position: p, owner: me });
+        var b = new Bullet1({ position: p, owner: me, scale: me.scale });
         b.position.x -= b.width / 2;
         return [b];
     }
 
-    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me } });
-    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me } });
+    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me, scale: me.scale } });
+    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me, scale: me.scale } });
 
     b1.position.x -= b1.width / 2;
     b2.position.x -= b2.width / 2;

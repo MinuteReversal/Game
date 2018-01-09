@@ -5,7 +5,7 @@ var ABullet = function () {
     //dataBus.sound.play(dataBus.resource.get("bullet").binary.slice());
     me.addEventListener("frame", function (evt) { me.onFrame(evt); });
     me.addEventListener("collision", function (evt) { me.onCollision(evt); });
-}
+};
 
 ABullet.prototype = Object.create(AModel.prototype);
 

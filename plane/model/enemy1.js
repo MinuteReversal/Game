@@ -6,6 +6,7 @@
 var Enemy1 = function (options) {
     AEnemy.apply(this, arguments);
     var me = this;
+    me.image = dataBus.resource.get("bg").entity;
     me.width = 63;
     me.height = 50;
     me.sWidth = me.width;
@@ -25,6 +26,7 @@ var Enemy1 = function (options) {
         }
     });
 };
+
 Enemy1.prototype = Object.create(AEnemy.prototype);
 
 /**

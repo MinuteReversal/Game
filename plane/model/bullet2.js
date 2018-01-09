@@ -5,8 +5,9 @@
 var Bullet2 = function (options) {
     ABullet.apply(this, arguments);
     var me = this;
-    me.width = 13;
-    me.height = 28;
+    me.image = dataBus.resource.get("bg").entity;
+    me.width = 13 * me.scale;
+    me.height = 28 * me.scale;
     me.sWidth = me.width
     me.sHeight = me.height;
     me.sPosition = {

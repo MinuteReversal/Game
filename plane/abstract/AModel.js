@@ -20,8 +20,10 @@ var AModel = function () {
         y: 0
     };
     me.rotate = 0;
+    me.scale = 1;
     me.speed = 0;
-        
+    me.image = null;
+    
     if (typeof arguments[0] === "object") {
         for (p in arguments[0]) {
             me[p] = arguments[0][p];
@@ -55,6 +57,16 @@ AModel.prototype.getBox = function () {
             y: me.position.y + me.height
         }
     };
+};
+
+AModel.prototype.inBox = function (point) {
+    var me = this;
+    if (point.x >= me.position.x &&
+        point.x <= me.position.x + me.width &&
+        point.y >= me.position.y &&
+        point.y <= me.position.y + me.height
+    ) return true;
+    return false;
 };
 
 /**
