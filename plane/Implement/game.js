@@ -39,12 +39,35 @@ var Game = function (options) {
         if (options.touch) me.touch = options.touch;
     }
 
+    var fn = function () {
+        me.start();
+        me.canvas.removeEventListener("click", fn);
+        me.canvas.removeEventListener("touchstart", fn);
+    };
+    me.canvas.addEventListener("click", fn);
+    me.canvas.addEventListener("touchstart", fn);
+
+    window.addEventListener("load", function () {
+        me.touchToStart();
+    });
+};
+
+Game.prototype.touchToStart = function () {
+    var me = this;
+    me.context.save();
+    me.context.strokeStyle = "black";
+    me.context.fillText("点击屏幕开始", me.width / 2 - 40, me.height / 2 - 20);
+    me.context.restore();
+};
+
+Game.prototype.start = function () {
+    var me = this;
     me.resource.addEventListener("complete", function (evt) {
         try {
             me.addBackground();
             me.addScore();
             me.addPlayer1();
-            //me.sound.play(me.resource.get("bgm").binary.slice(), true);
+            me.sound.play(me.resource.get("bgm").entity, true);
             me.loop();
         }
         catch (ex) {

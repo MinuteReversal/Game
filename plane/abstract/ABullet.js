@@ -2,7 +2,7 @@ var ABullet = function () {
     AModel.apply(this, arguments);
     var me = this;
 
-    //dataBus.sound.play(dataBus.resource.get("bullet").binary.slice());
+    dataBus.sound.play(dataBus.resource.get("bullet").entity);
     me.addEventListener("frame", function (evt) { me.onFrame(evt); });
     me.addEventListener("collision", function (evt) { me.onCollision(evt); });
 };

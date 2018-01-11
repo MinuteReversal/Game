@@ -105,26 +105,39 @@ Resource.prototype.load = function (key) {
     }
 
     if (item) {
-        me.httpGet(item.src, function (xhr) {
-            item.binary = xhr.response;
-            item.contentType = xhr.getResponseHeader("content-type");
+        if (item.src.indexOf(".png") > -1) {
+            me.httpGet(item.src, function (xhr) {
+                item.binary = xhr.response;
+                item.contentType = xhr.getResponseHeader("content-type");
 
-            if (item.contentType.indexOf("image") > -1) {
-                var img = new Image();
-                img.src = me.arrayBufferToBase64(item.binary, item.contentType);
-                item.entity = img;
-            }
-            else if (item.contentType.indexOf("audio") > -1) {
-                var a = new Audio();
-                a.src = me.arrayBufferToBase64(item.binary, item.contentType);
-                item.entity = a;
-            }
+                if (item.contentType.indexOf("image") > -1) {
+                    var img = new Image();
+                    img.addEventListener("load", function (evt) {
+                        me.waitLoad();
+                    });
+                    img.src = item.src;
+                    item.entity = img;
+                }
 
-            if (++me._loaded === me.list.length) {
-                me.isComplete = true;
-                me.dispatchEvent("complete", { target: me });
-            }
-        });
+            });
+        }
+        if (item.src.indexOf(".mp3") > -1) {
+            var a = new Audio();
+            a.addEventListener("canplay", function (evt) {
+                
+            });
+            a.src = item.src;
+            item.entity = a;
+            me.waitLoad();
+        }
+    }
+};
+
+Resource.prototype.waitLoad = function () {
+    var me = this;
+    if (++me._loaded === me.list.length) {
+        me.isComplete = true;
+        me.dispatchEvent("complete", { target: me });
     }
 };
 

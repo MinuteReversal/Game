@@ -6,7 +6,7 @@ var Sound = function () {
     this.isPause = false;
     this.audioContext = null;
     this.list = [];
-    this.isSupportAudioContext = typeof AudioContext !== "undefined";
+    this.isSupportAudioContext = false;
 
     if (this.isSupportAudioContext) {
         this.audioContext = new AudioContext();
@@ -24,6 +24,17 @@ Sound.prototype.play = function (arraybuffer, isLoop) {
             bs.start();
             bs = undefined;
         });
+    }
+    else if (arguments[0] instanceof Audio) {
+        var a = arguments[0];
+        a.loop = isLoop;
+        try {
+            a.currentTime = 0;
+        } catch (ex) {
+            
+        }
+
+        a.play();
     }
     else {
         var audio = new Audio();
