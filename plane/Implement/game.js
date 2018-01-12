@@ -47,34 +47,44 @@ var Game = function (options) {
     me.canvas.addEventListener("click", fn);
     me.canvas.addEventListener("touchstart", fn);
 
-    window.addEventListener("load", function () {
+    me.resource.addEventListener("complete", function (evt) {
         me.touchToStart();
     });
+    me.resource.loadAll();
 };
 
 Game.prototype.touchToStart = function () {
     var me = this;
-    me.context.save();
-    me.context.strokeStyle = "black";
-    me.context.fillText("点击屏幕开始", me.width / 2 - 40, me.height / 2 - 20);
-    me.context.restore();
+    var f = new Face();
+    f.width = me.width;
+    f.height = 1136 / me.height * me.width;
+
+    var btn = new Button();
+    btn.width = me.width / 4;
+    btn.height = 20 / 80 * me.width / 4;
+    btn.text = "开始游戏";
+
+    btn.position.x = (me.width - btn.width) / 2;
+    btn.position.y = (me.height - btn.height - me.height / 20);
+
+    dataBus.add(f);
+    dataBus.add(btn);
+    me.draw();
 };
 
 Game.prototype.start = function () {
     var me = this;
-    me.resource.addEventListener("complete", function (evt) {
-        try {
-            me.addBackground();
-            me.addScore();
-            me.addPlayer1();
-            me.sound.play(me.resource.get("bgm").entity, true);
-            me.loop();
-        }
-        catch (ex) {
-            alert(ex.message);
-        }
-    });
-    me.resource.loadAll();
+    try {
+        dataBus.list = [];
+        me.addBackground();
+        me.addScore();
+        me.addPlayer1();
+        me.sound.play(me.resource.get("bgm").entity, true);
+        me.loop();
+    }
+    catch (ex) {
+        alert(ex.message);
+    }
 };
 
 Game.prototype.createCanvas = function (width, height) {
@@ -126,7 +136,7 @@ Game.prototype.draw = function () {
     var now = Date.now();
     for (var i = 0, item; item = dataBus.list[i]; i++) {
         if (item.onFrame) {
-            item.onFrame(now);
+            item.onFrame({ target: me });
         }
 
         if (typeof item.getCenter === "undefined") continue;
@@ -156,22 +166,26 @@ Game.prototype.draw = function () {
             me.context.fillText(item.position.x + "," + item.position.y, item.position.x, item.position.y);
             me.context.restore();
         }
+        if (item.onAfterFrame) {
+            item.onAfterFrame({ target: me });
+        }
     }
 
     me.drawScore();
 
     if (me.showFps) {
-        me.context.save();
-        me.context.strokeStyle = "black";
-        me.context.fillText("FPS:" + me.fps, 20, me.height - 20);
-        me.context.restore();
         if (now - me.lastTime >= 1000) {
             me.fps = me.frameCount;
             me.lastTime = now;
             me.frameCount = 0;
         }
         ++me.frameCount;
+        me.context.save();
+        me.context.strokeStyle = "black";
+        me.context.fillText("FPS:" + me.fps, 20, me.height - 20);
+        me.context.restore();
     }
+
 
 };
 
@@ -180,11 +194,13 @@ Game.prototype.drawScore = function () {
     var num = me.score;
     var i = 0;
     var j = 0;
-    while (num > 0) {
-        i = num % 10;
-        me.scoreList[j].number = i;
-        num = parseInt(num / 10);
-        j++;
+    if (me.scoreList.length) {
+        while (num > 0) {
+            i = num % 10;
+            me.scoreList[j].number = i;
+            num = parseInt(num / 10);
+            j++;
+        }
     }
 };
 
@@ -237,10 +253,10 @@ Game.prototype.keyboardWatch = function () {
     var kbd = me.keyboard;
     if (me.player1) {
         var player1 = me.player1;
-        if (kbd.KeyW) player1.position.y -= player1.speed;
-        if (kbd.KeyA) player1.position.x -= player1.speed;
-        if (kbd.KeyS) player1.position.y += player1.speed;
-        if (kbd.KeyD) player1.position.x += player1.speed;
+        if (kbd.KeyW && player1.position.y > 0) player1.position.y -= player1.speed;
+        if (kbd.KeyA && player1.position.x > 0) player1.position.x -= player1.speed;
+        if (kbd.KeyS && player1.position.y + player1.height < me.height) player1.position.y += player1.speed;
+        if (kbd.KeyD && player1.position.x + player1.width < me.width) player1.position.x += player1.speed;
         if (kbd.KeyJ) dataBus.list = dataBus.list.concat(player1.fire());
     }
 };

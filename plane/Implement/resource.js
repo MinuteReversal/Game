@@ -7,8 +7,6 @@
 var Resource = function () {
     AEventObject.apply(this, arguments);
     this.list = [];
-    this.cache = true;
-    this.isAutoLoad = true;
     this.isComplete = false;
     this._loaded = 0;
     if (arguments[0] instanceof Object) {
@@ -106,25 +104,18 @@ Resource.prototype.load = function (key) {
 
     if (item) {
         if (item.src.indexOf(".png") > -1) {
-            me.httpGet(item.src, function (xhr) {
-                item.binary = xhr.response;
-                item.contentType = xhr.getResponseHeader("content-type");
-
-                if (item.contentType.indexOf("image") > -1) {
-                    var img = new Image();
-                    img.addEventListener("load", function (evt) {
-                        me.waitLoad();
-                    });
-                    img.src = item.src;
-                    item.entity = img;
-                }
-
+            var img = new Image();
+            img.addEventListener("load", function (evt) {
+                me.waitLoad();
             });
+            img.src = item.src;
+            item.entity = img;
         }
+
         if (item.src.indexOf(".mp3") > -1) {
             var a = new Audio();
             a.addEventListener("canplay", function (evt) {
-                
+
             });
             a.src = item.src;
             item.entity = a;
