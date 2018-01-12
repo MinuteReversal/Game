@@ -11,10 +11,10 @@ var Plane = function (options) {
     AModel.apply(this, arguments);
     var me = this;
     me.image = dataBus.resource.get("bg").entity;
-    me.width = 128 * me.scale;
-    me.height = 162 * me.scale;
-    me.sWidth = me.width
-    me.sHeight = me.height;
+    me.width = 128 * dataBus.scale;
+    me.height = 162 * dataBus.scale;
+    me.sWidth = 128
+    me.sHeight = 162;
     me.sPosition.x = 640;
     me.bulletType = 1;
     me.speed = 3;
@@ -65,10 +65,10 @@ Plane.prototype.normalAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.5 * 1000) {
         if (me.sPosition.y === 0) {
-            me.sPosition.y += me.height;
+            me.sPosition.y += me.sheight;
         }
         else {
-            me.sPosition.y -= me.height;
+            me.sPosition.y -= me.sheight;
         }
         me.lastAnimation = Date.now();
     }

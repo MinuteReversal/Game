@@ -11,7 +11,6 @@
  */
 var Game = function (options) {
     var me = this;
-    me.scale = 1;
     me.isPause = false;
     me.isDrawBox = false;
     me.showFps = true;
@@ -33,6 +32,9 @@ var Game = function (options) {
     me.fps = 0;
     me.score = 0;
     me.scoreList = [];
+
+    dataBus.scale = me.width / 1136;
+    
     if (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
         if (options.mouse) me.mouse = options.mouse;

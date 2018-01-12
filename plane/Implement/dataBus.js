@@ -3,6 +3,7 @@
  * @datetime 20180108
  */
 var DataBus = function () {
+    this.scale = 1;
     this.sound = new Sound();
     this.resource = new Resource();
     this.list = [];

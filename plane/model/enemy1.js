@@ -7,8 +7,8 @@ var Enemy1 = function (options) {
     AEnemy.apply(this, arguments);
     var me = this;
     me.image = dataBus.resource.get("bg").entity;
-    me.width = 63;
-    me.height = 50;
+    me.width = 63 * dataBus.scale;
+    me.height = 50 * dataBus.scale;
     me.sWidth = me.width;
     me.sHeight = me.height;
     me.sPosition.x = 640 + 128;
