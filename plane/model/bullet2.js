@@ -8,8 +8,8 @@ var Bullet2 = function (options) {
     me.image = dataBus.resource.get("bg").entity;
     me.width = 13 * dataBus.scale;
     me.height = 28 * dataBus.scale;
-    me.sWidth = me.width
-    me.sHeight = me.height;
+    me.sWidth = 13
+    me.sHeight = 28;
     me.sPosition = {
         x: 1200 - 13,
         y: me.height

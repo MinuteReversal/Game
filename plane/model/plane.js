@@ -35,13 +35,13 @@ Plane.prototype.fire = function () {
     if (me.bulletType === 1) {
         var p = me.getCenter();
         p.y = me.position.y;
-        var b = new Bullet1({ position: p, owner: me, scale: me.scale });
+        var b = new Bullet1({ position: p, owner: me });
         b.position.x -= b.width / 2;
         return [b];
     }
 
-    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me, scale: me.scale } });
-    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me, scale: me.scale } });
+    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me } });
+    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me } });
 
     b1.position.x -= b1.width / 2;
     b2.position.x -= b2.width / 2;
@@ -53,9 +53,8 @@ Plane.prototype.fire = function () {
  * @override
  */
 Plane.prototype.onFrame = function (evt) {
-    var me = this;
     AModel.prototype.onFrame.apply(this, arguments);//Call base onFrame
-
+    var me = this;
     if (me.status === "fine") {
         me.normalAnimation();
     }
@@ -65,10 +64,10 @@ Plane.prototype.normalAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.5 * 1000) {
         if (me.sPosition.y === 0) {
-            me.sPosition.y += me.sheight;
+            me.sPosition.y = me.sheight;
         }
         else {
-            me.sPosition.y -= me.sheight;
+            me.sPosition.y = 0;
         }
         me.lastAnimation = Date.now();
     }
@@ -76,5 +75,4 @@ Plane.prototype.normalAnimation = function () {
 
 Plane.prototype.destroyAnimation = function () {
     var me = this;
-
 };

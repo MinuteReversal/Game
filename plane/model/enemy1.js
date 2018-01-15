@@ -9,8 +9,8 @@ var Enemy1 = function (options) {
     me.image = dataBus.resource.get("bg").entity;
     me.width = 63 * dataBus.scale;
     me.height = 50 * dataBus.scale;
-    me.sWidth = me.width;
-    me.sHeight = me.height;
+    me.sWidth = 63;
+    me.sHeight = 50;
     me.sPosition.x = 640 + 128;
     me.rotate = 180;
     me.speed = 3;
@@ -59,7 +59,7 @@ Enemy1.prototype.explodeAnimation = function () {
             me.onExplode();
             return;
         }
-        me.sPosition.y += me.height;
+        me.sPosition.y += me.sheight;
         me.lastAnimation = Date.now();
     }
 };
