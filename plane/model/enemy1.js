@@ -55,11 +55,11 @@ Enemy1.prototype.onFrame = function (time) {
 Enemy1.prototype.explodeAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.1 * 1000) {
-        if (me.sPosition.y === me.explodeAnimationTotal * me.height) {
+        if (me.sPosition.y === me.explodeAnimationTotal * me.sHeight) {
             me.onExplode();
             return;
         }
-        me.sPosition.y += me.sheight;
+        me.sPosition.y += me.sHeight;
         me.lastAnimation = Date.now();
     }
 };

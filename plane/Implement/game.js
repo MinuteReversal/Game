@@ -34,7 +34,7 @@ var Game = function (options) {
     me.scoreList = [];
 
     dataBus.scale = me.width / 1136;
-    
+
     if (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
         if (options.mouse) me.mouse = options.mouse;
@@ -59,7 +59,7 @@ Game.prototype.touchToStart = function () {
     var me = this;
     var f = new Face();
     f.width = me.width;
-    f.height = 1136 / me.height * me.width;
+    f.height = me.width / 640 * 1136;
 
     var btn = new Button();
     btn.width = me.width / 4;

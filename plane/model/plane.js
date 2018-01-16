@@ -64,7 +64,7 @@ Plane.prototype.normalAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.5 * 1000) {
         if (me.sPosition.y === 0) {
-            me.sPosition.y = me.sheight;
+            me.sPosition.y = me.sHeight;
         }
         else {
             me.sPosition.y = 0;
