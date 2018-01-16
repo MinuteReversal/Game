@@ -12,7 +12,7 @@
 var Game = function (options) {
     var me = this;
     me.isPause = false;
-    me.isDrawBox = true;
+    me.isDrawBox = false;
     me.showFps = true;
     me.keyboard = null;
     me.mouse = null;
@@ -33,7 +33,7 @@ var Game = function (options) {
     me.score = 0;
     me.scoreList = [];
 
-    dataBus.scale = me.width / 1136;
+    dataBus.scale = me.width / 1136 < 0.5 ? 0.5 : me.width / 1136;
 
     if (options) {
         if (options.keyboard) me.keyboard = options.keyboard;
