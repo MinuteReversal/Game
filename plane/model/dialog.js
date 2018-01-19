@@ -1,7 +1,7 @@
 var Dialog = function (options) {
     AModel.apply(this, arguments);
     var me = this;
-    me.image = dataBus.resource.get("commmon").entity;
+    me.image = dataBus.resource.get("common").entity;
     me.width = 200;
     me.height = 200;
     me.sWidth = 200

@@ -28,10 +28,13 @@ Sound.prototype.play = function (arraybuffer, isLoop) {
     else if (arguments[0] instanceof Audio) {
         var a = arguments[0];
         a.loop = isLoop;
+        if (me.list.indexOf(a) === -1) {
+            me.list.push(a);
+        }
         try {
             a.currentTime = 0;
         } catch (ex) {
-            
+
         }
 
         a.play();

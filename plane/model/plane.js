@@ -22,6 +22,12 @@ var Plane = function (options) {
     me.name = "plane";
     me.lastAnimation = Date.now();
     me.addEventListener("frame", function (evt) { me.onFrame(evt); });
+    me.addEventListener("collision",function(evt){
+        if(evt.target instanceof AEnemy){
+            me.dispatchEvent("explode");
+            me.status="explode";
+        }
+    });
 };
 
 Plane.prototype = Object.create(AModel.prototype);
@@ -53,11 +59,11 @@ Plane.prototype.fire = function () {
  * @override
  */
 Plane.prototype.onFrame = function (evt) {
-    AModel.prototype.onFrame.apply(this, arguments);//Call base onFrame
     var me = this;
     if (me.status === "fine") {
         me.normalAnimation();
     }
+    AModel.prototype.onFrame.apply(this, arguments);//call base onFrame
 };
 
 Plane.prototype.normalAnimation = function () {

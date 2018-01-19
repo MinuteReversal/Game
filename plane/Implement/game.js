@@ -13,7 +13,7 @@ var Game = function (options) {
     var me = this;
     me.isPause = false;
     me.isDrawBox = false;
-    me.showFps = true;
+    me.showFps = false;
     me.keyboard = null;
     me.mouse = null;
     me.touch = null;
@@ -32,6 +32,7 @@ var Game = function (options) {
     me.fps = 0;
     me.score = 0;
     me.scoreList = [];
+    me.timer = null;
 
     dataBus.scale = me.width / 1136 < 0.5 ? 0.5 : me.width / 1136;
 
@@ -41,18 +42,31 @@ var Game = function (options) {
         if (options.touch) me.touch = options.touch;
     }
 
-    var fn = function () {
-        me.start();
-        me.canvas.removeEventListener("click", fn);
-        me.canvas.removeEventListener("touchstart", fn);
-    };
-    me.canvas.addEventListener("click", fn);
-    me.canvas.addEventListener("touchstart", fn);
+    me.canvas.addEventListener("click", function (evt) {
+        me.dispatchClick({ x: me.mouse.X, y: me.mouse.Y });
+    });
+    me.canvas.addEventListener("touchend", function (evt) {
+        var t = me.touch.list[0];
+        if (t) me.dispatchClick({ x: t.x, y: t.y });
+    });
 
     me.resource.addEventListener("complete", function (evt) {
         me.touchToStart();
     });
     me.resource.loadAll();
+};
+
+Game.prototype.dispatchClick = function (p) {
+    var me = this;
+    for (var i = 0, item; item = dataBus.list[i]; i++) {
+        if (p.x >= item.position.x &&
+            p.x <= item.position.x + item.width &&
+            p.y >= item.position.y &&
+            p.y <= item.position.y + item.height
+        ) {
+            item.dispatchEvent("click", p);
+        }
+    }
 };
 
 Game.prototype.touchToStart = function () {
@@ -62,9 +76,12 @@ Game.prototype.touchToStart = function () {
     f.height = me.width / 640 * 1136;
 
     var btn = new Button();
+    btn.text = "开始游戏";
     btn.width = me.width / 4;
     btn.height = 20 / 80 * me.width / 4;
-    btn.text = "开始游戏";
+    btn.addEventListener("click", function () {
+        me.start();
+    });
 
     btn.position.x = (me.width - btn.width) / 2;
     btn.position.y = (me.height - btn.height - me.height / 20);
@@ -74,15 +91,53 @@ Game.prototype.touchToStart = function () {
     me.draw();
 };
 
+Game.prototype.gameover = function () {
+    var me = this;
+    var d = new Dialog();
+    d.position.x = (me.width - d.width) / 2;
+    d.position.y = (me.height - d.height) / 2;
+
+    var btn = new Button();
+    btn.text = "重新开始";
+    btn.position.x = d.position.x + (d.width - btn.width) / 2;
+    btn.position.y = d.position.y + d.height - btn.height - 10;
+    btn.addEventListener("click", function (evt) {
+        me.start();
+    });
+
+    var txt1 = new Text();
+    txt1.text = "飞机大战得分";
+    txt1.fontSize = 15;
+    txt1.position.x = d.position.x + (d.width - txt1.text.length * txt1.fontSize) / 2;
+    txt1.position.y = d.position.y + 23;
+
+
+
+    var txt2 = new Text();
+    txt2.text = me.score.toString();
+    txt2.fontSize = 20;
+    txt2.position.x = d.position.x + (d.width - txt2.text.length * txt2.fontSize) / 2 + 5;
+    txt2.position.y = d.position.y + 100;
+
+    dataBus.add(d);
+    dataBus.add(btn);
+    dataBus.add(txt1);
+    dataBus.add(txt2);
+};
+
 Game.prototype.start = function () {
     var me = this;
     try {
         dataBus.list = [];
+        me.scoreList = [];
+        me.score = 0;
         me.addBackground();
         me.addScore();
         me.addPlayer1();
         me.sound.play(me.resource.get("bgm").entity, true);
-        me.loop();
+
+        if (!me.timer) me.loop(); else me.isPause = false;
+
     }
     catch (ex) {
         alert(ex.message);
@@ -117,16 +172,16 @@ Game.prototype.loop = function () {
         if (me.isPause && !me.sound.isPause) me.sound.pause();
         if (!me.isPause && me.sound.isPause) me.sound.continue();
 
-        requestAnimationFrame(fn);
+        me.timer = requestAnimationFrame(fn);
     }
-    requestAnimationFrame(fn);
+    me.timer = requestAnimationFrame(fn);
 };
 
 Game.prototype.generateEnermy = function (timeStamp) {
     var me = this;
     var e = me.map.generate(timeStamp);
     if (e) {
-        e.addEventListener("collision", function (evt) {
+        e.addEventListener("explode", function (evt) {
             me.score++;
         });
         dataBus.add(e);
@@ -243,8 +298,10 @@ Game.prototype.addPlayer1 = function () {
     plane.position.x = (me.canvas.width - plane.width) / 2;
     plane.position.y = me.canvas.height - plane.height;
 
-    plane.addEventListener("collision", function (evt) {
-
+    plane.addEventListener("explode", function (evt) {
+        me.gameover();
+        me.isPause = true;
+        dataBus.sound.pause();
     });
     me.player1 = plane;
     dataBus.add(me.player1);

@@ -4,8 +4,8 @@ var Button = function (options) {
     me.image = dataBus.resource.get("common").entity;
     me.width = 79;
     me.height = 20;
-    me.sWidth = 79
-    me.sHeight = 20;
+    me.sWidth = 83
+    me.sHeight = 21;
     me.sPosition = {
         x: 201,
         y: 0

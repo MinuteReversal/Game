@@ -20,7 +20,8 @@ var Enemy1 = function (options) {
     me.lastAnimation = 0;
 
     me.addEventListener("collision", function (evt) {
-        if (me.status === "fine") {
+        if (me.status === "fine" && evt.target instanceof ABullet) {
+            me.dispatchEvent("explode");
             dataBus.sound.play(dataBus.resource.get("enemy1down").entity);
             me.status = "explode";
         }

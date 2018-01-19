@@ -22,6 +22,8 @@
     <script src="model/plane.js"></script>
     <script src="abstract/AEnemy.js"></script>
     <script src="model/enemy1.js"></script>
+    <script src="model/dialog.js"></script>
+    <script src="model/text.js"></script>
     <script src="level/level1.js"></script>
     <script src="lib/keyboardListener.js"></script>
     <script src="lib/mouseListener.js"></script>
@@ -29,10 +31,13 @@
 </head>
 
 <body style="margin:0;">
-    <canvas></canvas>
+    <canvas width="800" height="600"></canvas>
     <script>
         dataBus.resource.list = [
             { key: "bg", src: "resource/resource.png" },
+            { key: "number", src: "resource/number.png" },
+            { key: "face", src: "resource/face.png" },
+            { key: "common", src: "resource/common.png" },
             { key: "bgm", src: "resource/game_music.mp3" },
             { key: "bullet", src: "resource/bullet.mp3" },
             { key: "enemy1down", src: "resource/enemy1_down.mp3" },
@@ -58,7 +63,7 @@
                 context.rotate(item.rotate * Math.PI / 180);
                 context.translate(-item.width / 2, -item.height / 2);
                 context.drawImage(
-                    dataBus.resource.get("bg").entity,
+                    item.image,
                     item.sPosition.x,
                     item.sPosition.y,
                     item.sWidth,
@@ -75,7 +80,7 @@
         requestAnimationFrame(f);
 
         setTimeout(() => {
-            dataBus.add(new Enemy1());
+            dataBus.add(new Dialog());
         }, (1000));
 
     </script>

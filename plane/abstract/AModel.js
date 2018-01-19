@@ -23,7 +23,7 @@ var AModel = function () {
     me.scale = 1;
     me.speed = 0;
     me.image = null;
-    
+
     if (typeof arguments[0] === "object") {
         for (p in arguments[0]) {
             me[p] = arguments[0][p];
@@ -85,7 +85,7 @@ AModel.prototype.onFrame = function (evt) {
     var me = this;
 
     var o = me.getCollision(me);
-    if (o instanceof ABullet) {
+    if (o) {
         me.dispatchEvent("collision", { target: o });
         o.dispatchEvent("collision", { target: me });
     }
