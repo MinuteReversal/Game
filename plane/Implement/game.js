@@ -51,6 +51,7 @@ var Game = function (options) {
     });
 
     me.resource.addEventListener("complete", function (evt) {
+        dataBus.sound.loadList(dataBus.resource.list);
         me.touchToStart();
     });
     me.resource.loadAll();
@@ -80,6 +81,7 @@ Game.prototype.touchToStart = function () {
     btn.width = me.width / 4;
     btn.height = 20 / 80 * me.width / 4;
     btn.addEventListener("click", function () {
+        dataBus.sound.fixIOSCantPlay();
         me.start();
     });
 
@@ -91,6 +93,9 @@ Game.prototype.touchToStart = function () {
     me.draw();
 };
 
+/**
+ * Game Over Dialog
+ */
 Game.prototype.gameover = function () {
     var me = this;
     var d = new Dialog();
@@ -125,6 +130,9 @@ Game.prototype.gameover = function () {
     dataBus.add(txt2);
 };
 
+/**
+ * start Game
+ */
 Game.prototype.start = function () {
     var me = this;
     try {
@@ -134,7 +142,7 @@ Game.prototype.start = function () {
         me.addBackground();
         me.addScore();
         me.addPlayer1();
-        me.sound.play(me.resource.get("bgm").entity, true);
+        me.sound.play("bgm", true);
 
         if (!me.timer) me.loop(); else me.isPause = false;
 

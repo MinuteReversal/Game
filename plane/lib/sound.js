@@ -3,83 +3,71 @@
  * @datetime 2018-01-05
  */
 var Sound = function () {
-    this.isPause = false;
-    this.audioContext = null;
-    this.list = [];
-    this.isSupportAudioContext = false;
+    var me = this;
+    me.isPause = false;
+    me.list = {};
 
-    if (this.isSupportAudioContext) {
-        this.audioContext = new AudioContext();
+    if (arguments[0] instanceof Array) {
+        me.loadList(arguments[0]);
     }
 };
 
-Sound.prototype.play = function (arraybuffer, isLoop) {
+Sound.prototype.loadList = function (list) {
     var me = this;
-    if (me.isSupportAudioContext) {
-        me.audioContext.decodeAudioData(arraybuffer, function (buffer) {
-            var bs = me.audioContext.createBufferSource();
-            bs.buffer = buffer;
-            bs.connect(me.audioContext.destination);
-            bs.loop = !!isLoop;
-            bs.start();
-            bs = undefined;
-        });
-    }
-    else if (arguments[0] instanceof Audio) {
-        var a = arguments[0];
-        a.loop = isLoop;
-        if (me.list.indexOf(a) === -1) {
-            me.list.push(a);
+    for (var i = 0; item = list[i]; i++) {
+        if (item.src.indexOf(".mp3") > -1) {
+            me.list[item.key] = item.entity;
         }
-        try {
-            a.currentTime = 0;
-        } catch (ex) {
-
-        }
-
-        a.play();
     }
-    else {
-        var audio = new Audio();
-        audio.loop = isLoop;
-        audio.addEventListener("ended", function (evt) {
-            me.list.splice(me.list.indexOf(audio), 1);
-        });
-        audio.src = me.arraybufferToBase64(arraybuffer);
-        me.list.push(audio);
-        audio.play();
+};
+
+Sound.prototype.play = function (key, isLoop) {
+    var me = this;
+    var a = me.list[key];
+    if (typeof a === "undefined") return;
+    a.loop = !!isLoop;
+    try {
+        a.currentTime = 0;
+    } catch (ex) { }
+    a.play();
+};
+
+Sound.prototype.playAll = function () {
+    var me = this;
+    for (key in me.list) {
+        me.list[key].play();
     }
 };
 
 Sound.prototype.pause = function () {
     var me = this;
     me.isPause = true;
-    if (me.isSupportAudioContext) {
-        me.audioContext.suspend();
-    }
-    else {
-        me.list.forEach(function (value, index, array) {
-            value.pause();
-        });
+    for (key in me.list) {
+        me.list[key].pause();
     }
 };
 
 Sound.prototype.continue = function () {
     var me = this;
     me.isPause = false;
-    if (me.isSupportAudioContext) {
-        me.audioContext.resume();
-    }
-    else {
-        me.list.forEach(function (value, index, array) {
-            value.play();
-        });
+    for (key in me.list) {
+        me.list[key].play();
     }
 };
 
 Sound.prototype.stop = function () {
     var me = this;
+    for (key in me.list) {
+        var a = me.list[key];
+        a.pause();
+        a.currentTime = 0;
+    }
+};
 
+Sound.prototype.fixIOSCantPlay = function () {
+    var me = this;
+    me.playAll();
+    me.stop();
 };
 
 Sound.prototype.arraybufferToBase64 = function (arraybuffer) {

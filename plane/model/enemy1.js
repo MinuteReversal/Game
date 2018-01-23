@@ -22,7 +22,7 @@ var Enemy1 = function (options) {
     me.addEventListener("collision", function (evt) {
         if (me.status === "fine" && evt.target instanceof ABullet) {
             me.dispatchEvent("explode");
-            dataBus.sound.play(dataBus.resource.get("enemy1down").entity);
+            dataBus.sound.play("enemy1down");
             me.status = "explode";
         }
     });
