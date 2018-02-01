@@ -304,7 +304,7 @@ Game.prototype.addPlayer1 = function () {
     var me = this;
     var plane = new Plane({ scale: me.scale });
     plane.position.x = (me.canvas.width - plane.width) / 2;
-    plane.position.y = me.canvas.height - plane.height;
+    plane.position.y = me.canvas.height - plane.height * (1 + 0.2);
 
     plane.addEventListener("explode", function (evt) {
         me.gameover();
