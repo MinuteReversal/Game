@@ -14,7 +14,7 @@ var Sound = function () {
 
 Sound.prototype.loadList = function (list) {
     var me = this;
-    for (var i = 0; item = list[i]; i++) {
+    for (var i = 0,item; item = list[i]; i++) {
         if (item.src.indexOf(".mp3") > -1) {
             me.list[item.key] = item.entity;
         }

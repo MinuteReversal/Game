@@ -10,7 +10,8 @@ var Bullet1 = function (options) {
     me.height = 28 * dataBus.scale;
     me.sWidth = 13
     me.sHeight = 28;
-    me.sPosition.x = 1200 - 13;
+    me.sPosition.x = 1027;
+    me.sPosition.y = 1107;
     me.speed = 10;
     me.name = "Bullet1";
 };

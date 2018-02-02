@@ -11,8 +11,8 @@ var Bullet2 = function (options) {
     me.sWidth = 13
     me.sHeight = 28;
     me.sPosition = {
-        x: 1200 - 13,
-        y: me.height
+        x: 1105,
+        y: 1107
     };
     me.speed = 10;
     me.name = "Bullet2";
