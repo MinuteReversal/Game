@@ -18,14 +18,12 @@ var Plane = function (options) {
     me.sPosition.x = 640;
     me.bulletType = 1;
     me.speed = 3;
-    me.status = "fine";
+    me.hp = 1;
     me.name = "plane";
-    me.lastAnimation = Date.now();
-    me.addEventListener("frame", function (evt) { me.onFrame(evt); });
-    me.addEventListener("collision",function(evt){
-        if(evt.target instanceof AEnemy){
-            me.dispatchEvent("explode");
-            me.status="explode";
+    me.lastAnimation = Date.now();    
+    me.addEventListener("collision", function (evt) {
+        if (evt.target instanceof AEnemy) {
+            if (me.hp > 0)--menubar.hp;
         }
     });
 };
@@ -60,8 +58,11 @@ Plane.prototype.fire = function () {
  */
 Plane.prototype.onFrame = function (evt) {
     var me = this;
-    if (me.status === "fine") {
+    if (me.hp > 0) {
         me.normalAnimation();
+    }
+    if (me.hp === 0) {
+
     }
     AModel.prototype.onFrame.apply(this, arguments);//call base onFrame
 };
@@ -79,6 +80,19 @@ Plane.prototype.normalAnimation = function () {
     }
 };
 
-Plane.prototype.destroyAnimation = function () {
+Plane.prototype.explodeAnimation = function () {
     var me = this;
+    if (Date.now() - me.lastAnimation > 0.1 * 1000) {
+        if (me.sPosition.y === me.explodeAnimationTotal * me.sHeight) {
+            me.onExplode();
+            return;
+        }
+        me.sPosition.x += me.sWidth;
+        me.lastAnimation = Date.now();
+    }
+};
+
+Plane.prototype.onExplode = function () {
+    var me = this;
+    me.dispatchEvent("explode");
 };

@@ -26,7 +26,17 @@ Level1.prototype.generate = function (timestamp) {
     var me = this;
     if (++me.count === 30) {
         me.count = 0;
-        var e = new Enemy1();
+        var e = null;
+        var r = me.getRandomArbitrary(1, 3);
+        if (r === 1) {
+            e = new Enemy1();
+        }
+        else if (r === 2) {
+            e = new Enemy2();
+        }
+        else if (r === 3) {
+            e = new Enemy3();
+        }
         e.position.x = me.getRandomArbitrary(0, me.width - e.width);
         e.y = -e.height;
         return e;
