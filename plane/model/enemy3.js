@@ -7,11 +7,11 @@ var Enemy3 = function (options) {
     AEnemy.apply(this, arguments);
     var me = this;
     me.image = dataBus.resource.get("bg").entity;
-    me.width = 90 * dataBus.scale;
-    me.height = 115 * dataBus.scale;
-    me.sWidth = 90;
-    me.sHeight = 115;
-    me.sPosition.x = 834;
+    me.width = 218 * dataBus.scale;
+    me.height = 330 * dataBus.scale;
+    me.sWidth = 218;
+    me.sHeight = 330;
+    me.sPosition.x = 926;
     me.rotate = 180;
     me.speed = 3;
     me.name = "Enemy3";
@@ -73,13 +73,14 @@ Enemy3.prototype.normalAnimation = function () {
 };
 
 Enemy3.prototype.damageAnimation = function () {
-    me.sPosition.y = me.sHeight * 3;
+    var me = this;
+    me.sPosition.y = me.sHeight * 2;
 };
 
 Enemy3.prototype.explodeAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.1 * 1000) {
-        if (me.sPosition.x === me.explodeAnimationTotal * me.sWidth) {
+        if (me.sPosition.x === 926 + me.explodeAnimationTotal * me.sWidth) {
             me.onExplode();
             return;
         }

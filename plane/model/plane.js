@@ -12,18 +12,22 @@ var Plane = function (options) {
     var me = this;
     me.image = dataBus.resource.get("bg").entity;
     me.width = 128 * dataBus.scale;
-    me.height = 162 * dataBus.scale;
+    me.height = 166 * dataBus.scale;
     me.sWidth = 128
-    me.sHeight = 162;
+    me.sHeight = 166;
     me.sPosition.x = 640;
     me.bulletType = 1;
     me.speed = 3;
     me.hp = 1;
     me.name = "plane";
-    me.lastAnimation = Date.now();    
+    me.lastAnimation = Date.now();
+    me.explodeAnimationTotal = 4;
     me.addEventListener("collision", function (evt) {
         if (evt.target instanceof AEnemy) {
             if (me.hp > 0)--menubar.hp;
+            if (me.hp === 0) {
+                if (me.hp === 0) dataBus.sound.play("gameover");
+            }
         }
     });
 };
@@ -62,7 +66,7 @@ Plane.prototype.onFrame = function (evt) {
         me.normalAnimation();
     }
     if (me.hp === 0) {
-
+        me.explodeAnimation();
     }
     AModel.prototype.onFrame.apply(this, arguments);//call base onFrame
 };
@@ -87,7 +91,7 @@ Plane.prototype.explodeAnimation = function () {
             me.onExplode();
             return;
         }
-        me.sPosition.x += me.sWidth;
+        me.sPosition.y += me.sHeight;
         me.lastAnimation = Date.now();
     }
 };

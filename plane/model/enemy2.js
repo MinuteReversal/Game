@@ -56,7 +56,8 @@ Enemy2.prototype.onFrame = function (time) {
 };
 
 Enemy2.prototype.damageAnimation = function () {
-    me.sPosition.y += me.sHeight;
+    var me = this;
+    me.sPosition.y = me.sHeight;
 };
 
 Enemy2.prototype.explodeAnimation = function () {

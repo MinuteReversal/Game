@@ -35,6 +35,7 @@
 <body style="margin:0;">
     <canvas width="800" height="600"></canvas>
     <script>
+        
         dataBus.resource.list = [
             { key: "bg", src: "resource/resource.png" },
             { key: "number", src: "resource/number.png" },
@@ -50,6 +51,7 @@
         ];
         dataBus.resource.loadAll();
 
+        var player1 = new Plane();
         var canvas = document.querySelector("canvas");
         var context = canvas.getContext("2d");
 
@@ -82,7 +84,7 @@
         requestAnimationFrame(f);
 
         setTimeout(function () {
-            dataBus.add(new Plane());
+            dataBus.add(player1);
         }, (1000));
 
     </script>

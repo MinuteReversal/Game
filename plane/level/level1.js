@@ -24,10 +24,10 @@ Level1.prototype.getRandomArbitrary = function (min, max) {
 
 Level1.prototype.generate = function (timestamp) {
     var me = this;
-    if (++me.count === 30) {
+    if (++me.count === 40) {
         me.count = 0;
         var e = null;
-        var r = me.getRandomArbitrary(1, 3);
+        var r = parseInt(me.getRandomArbitrary(1, 4));
         if (r === 1) {
             e = new Enemy1();
         }
