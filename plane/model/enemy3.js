@@ -20,10 +20,20 @@ var Enemy3 = function (options) {
     me.normalAnimationTotal = 1;
     me.lastAnimation = 0;//timestamp
 
+    dataBus.sound.play("enemy2out");
+
     me.addEventListener("collision", function (evt) {
         if (evt.target instanceof ABullet) {
-            if (me.hp > 0)--me.hp;
-            if (me.hp === 0) dataBus.sound.play("enemy3down");
+            if (me.hp > 0) {
+                --me.hp;
+                if (me.hp === 0) {
+                    dataBus.sound.play("enemy2down");
+                    me.sPosition = {
+                        x: 926 + me.sWidth,
+                        y: 1
+                    };
+                }
+            }
         }
     });
 };

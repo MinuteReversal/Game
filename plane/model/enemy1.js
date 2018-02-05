@@ -21,8 +21,10 @@ var Enemy1 = function (options) {
 
     me.addEventListener("collision", function (evt) {
         if (evt.target instanceof ABullet) {
-            if (me.hp > 0)--me.hp;
-            if (me.hp === 0) dataBus.sound.play("enemy1down");
+            if (me.hp > 0) {
+                --me.hp;
+                if (me.hp === 0) dataBus.sound.play("enemy1down");
+            }
         }
     });
 };

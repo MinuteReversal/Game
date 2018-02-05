@@ -28,7 +28,7 @@ Background.prototype.resize = function () {
 
 Background.prototype.onFrame = function () {
     var me = this;
-    me.position.y += 0.05;
+    me.position.y += 0.1;
     if (me.position.y >= me.windowHeight) {
         me.position.y = me.windowHeight - me.height - me.height;
     }

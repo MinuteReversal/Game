@@ -24,9 +24,12 @@ var Plane = function (options) {
     me.explodeAnimationTotal = 4;
     me.addEventListener("collision", function (evt) {
         if (evt.target instanceof AEnemy) {
-            if (me.hp > 0)--menubar.hp;
-            if (me.hp === 0) {
-                if (me.hp === 0) dataBus.sound.play("gameover");
+            if (me.hp > 0) {
+                --me.hp;
+                if (me.hp === 0) {
+                    dataBus.sound.play("gameover");
+                    me.sPosition.y = me.sHeight * 2;
+                }
             }
         }
     });

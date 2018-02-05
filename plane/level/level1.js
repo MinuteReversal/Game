@@ -38,8 +38,18 @@ Level1.prototype.generate = function (timestamp) {
             e = new Enemy3();
         }
         e.position.x = me.getRandomArbitrary(0, me.width - e.width);
-        e.y = -e.height;
+        e.position.y = -e.height;
+
+        if (me.isEgdeCollision(e)) return null;
         return e;
     }
     return null;
+};
+
+Level1.prototype.isEgdeCollision = function (e) {
+    var me = this;
+    for (var i = 0, item; item = dataBus.list[i]; i++) {
+        if (item.isEgdeCollision(item,e) && item instanceof AEnemy) return true;
+    }
+    return false;
 };
