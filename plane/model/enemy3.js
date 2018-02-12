@@ -16,7 +16,7 @@ var Enemy3 = function (options) {
     me.speed = 3;
     me.name = "Enemy3";
     me.hp = 5;
-    me.explodeAnimationTotal = 5;
+    me.explodeAnimationTotal = 6;
     me.normalAnimationTotal = 1;
     me.lastAnimation = 0;//timestamp
 

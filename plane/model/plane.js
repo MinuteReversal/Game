@@ -21,7 +21,7 @@ var Plane = function (options) {
     me.hp = 1;
     me.name = "plane";
     me.lastAnimation = Date.now();
-    me.explodeAnimationTotal = 4;
+    me.explodeAnimationTotal = 5;
     me.addEventListener("collision", function (evt) {
         if (evt.target instanceof AEnemy) {
             if (me.hp > 0) {

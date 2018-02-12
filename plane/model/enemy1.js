@@ -16,7 +16,7 @@ var Enemy1 = function (options) {
     me.speed = 3;
     me.name = "Enemy1";
     me.hp = 1;
-    me.explodeAnimationTotal = 3;
+    me.explodeAnimationTotal = 4;
     me.lastAnimation = 0;
 
     me.addEventListener("collision", function (evt) {

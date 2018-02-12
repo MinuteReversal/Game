@@ -24,6 +24,9 @@
     <script src="model/enemy1.js"></script>
     <script src="model/enemy2.js"></script>
     <script src="model/enemy3.js"></script>
+    <script src="abstract/APowerUp.js"></script>
+    <script src="model/bomb.js"></script>
+    <script src="model/doubleLaser.js"></script>
     <script src="model/dialog.js"></script>
     <script src="model/text.js"></script>
     <script src="level/level1.js"></script>
@@ -47,11 +50,14 @@
             { key: "enemy2down", src: "resource/enemy2_down.mp3" },
             { key: "enemy2out", src: "resource/enemy2_out.mp3" },
             { key: "enemy3down", src: "resource/enemy3_down.mp3" },
-            { key: "gameover", src: "resource/game_over.mp3" }
+            { key: "gameover", src: "resource/game_over.mp3" },
+            { key: "bomb", src: "resource/get_bomb.mp3" },
+            { key: "usebomb", src: "resource/use_bomb.mp3" },
+            { key: "doublelaser", src: "resource/get_double_laser.mp3" }
         ];
         dataBus.resource.loadAll();
 
-        var player1 = new Plane();
+        var player1 = new DoubleLaser();
         var canvas = document.querySelector("canvas");
         var context = canvas.getContext("2d");
 
