@@ -29,13 +29,16 @@ Level1.prototype.generate = function (timestamp) {
         var e = null;
         var r = parseInt(me.getRandomArbitrary(1, 4));
         if (r === 1) {
-            e = new Enemy1();
+            //e = new Enemy1();
+            e = new Bomb();
         }
         else if (r === 2) {
-            e = new Enemy2();
+            //e = new Enemy2();
+            e = new DoubleLaser();
         }
         else if (r === 3) {
-            e = new Enemy3();
+            //e = new Enemy3();
+            e = new Enemy1();
         }
         e.position.x = me.getRandomArbitrary(0, me.width - e.width);
         e.position.y = -e.height;
@@ -49,7 +52,7 @@ Level1.prototype.generate = function (timestamp) {
 Level1.prototype.isEgdeCollision = function (e) {
     var me = this;
     for (var i = 0, item; item = dataBus.list[i]; i++) {
-        if (item.isEgdeCollision(item,e) && item instanceof AEnemy) return true;
+        if (item.isEgdeCollision(item, e) && item instanceof AEnemy) return true;
     }
     return false;
 };

@@ -17,3 +17,7 @@ var Bomb = function () {
 };
 
 Bomb.prototype = Object.create(APowerUp.prototype);
+
+Bomb.prototype.onFrame = function () {
+    APowerUp.prototype.playAnimation.apply(this, arguments);
+};

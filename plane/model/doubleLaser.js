@@ -18,3 +18,6 @@ var DoubleLaser = function () {
 
 DoubleLaser.prototype = Object.create(APowerUp.prototype);
 
+DoubleLaser.prototype.onFrame = function () {
+    APowerUp.prototype.playAnimation.apply(this, arguments);
+};
