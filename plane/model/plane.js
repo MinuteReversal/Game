@@ -20,6 +20,7 @@ var Plane = function (options) {
     me.speed = 3;
     me.hp = 1;
     me.name = "plane";
+    me.bombs = 0;
     me.lastAnimation = Date.now();
     me.explodeAnimationTotal = 5;
     me.addEventListener("collision", function (evt) {
@@ -31,6 +32,21 @@ var Plane = function (options) {
                     me.sPosition.y = me.sHeight * 2;
                 }
             }
+        }
+        else if (evt.target instanceof DoubleLaser) {
+            dataBus.sound.play("getdoublelaser");
+            if (me.bulletType === 1) {
+                me.bulletType = 2;
+            }
+            else {
+                me.bulletType = 1;
+            }
+            dataBus.remove(evt.target);
+        }
+        else if (evt.target instanceof Bomb) {
+            dataBus.sound.play("getbomb");
+            me.bombs++;
+            dataBus.remove(evt.target);
         }
     });
 };
@@ -51,8 +67,8 @@ Plane.prototype.fire = function () {
         return [b];
     }
 
-    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2, owner: me } });
-    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2, owner: me } });
+    var b1 = new Bullet2({ position: { x: me.position.x, y: me.position.y + me.height / 2 }, owner: me });
+    var b2 = new Bullet2({ position: { x: me.position.x + me.width, y: me.position.y + me.height / 2 }, owner: me });
 
     b1.position.x -= b1.width / 2;
     b2.position.x -= b2.width / 2;

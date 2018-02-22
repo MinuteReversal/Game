@@ -16,13 +16,13 @@ APowerUp.prototype.playAnimation = function () {
 
 APowerUp.prototype.showAnimation = function () {
     if (this.status === "showdown") {
-        this.position.y+=5;
+        this.position.y += 5;
         if (this.position.y >= this.height * 3) {
             this.status = "showup";
         }
     }
-    else if (this.statues === "showup") {
-        this.position.y-=5;
+    else if (this.status === "showup") {
+        this.position.y -= 5;
         if (this.position.y + this.height < 0) {
             this.status = "down";
         }
@@ -31,4 +31,7 @@ APowerUp.prototype.showAnimation = function () {
 
 APowerUp.prototype.downAnimation = function () {
     this.position.y += 10;
+    if (this.position.y > 1136) {
+        dataBus.remove(this);
+    }
 };

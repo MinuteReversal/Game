@@ -12,7 +12,7 @@
 var Game = function (options) {
     var me = this;
     me.isPause = false;
-    me.isDrawBox = false;
+    me.isDrawBox = true;
     me.showFps = false;
     me.keyboard = null;
     me.mouse = null;
