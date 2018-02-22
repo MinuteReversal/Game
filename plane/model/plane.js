@@ -13,7 +13,7 @@ var Plane = function (options) {
     me.image = dataBus.resource.get("bg").entity;
     me.width = 128 * dataBus.scale;
     me.height = 166 * dataBus.scale;
-    me.sWidth = 128
+    me.sWidth = 128;
     me.sHeight = 166;
     me.sPosition.x = 640;
     me.bulletType = 1;
@@ -23,12 +23,13 @@ var Plane = function (options) {
     me.bombs = 0;
     me.lastAnimation = Date.now();
     me.explodeAnimationTotal = 5;
+    me.firedTime = 0;
+    me.bombTime = 0;
     me.addEventListener("collision", function (evt) {
         if (evt.target instanceof AEnemy) {
             if (me.hp > 0) {
                 --me.hp;
                 if (me.hp === 0) {
-                    dataBus.sound.play("gameover");
                     me.sPosition.y = me.sHeight * 2;
                 }
             }
@@ -44,9 +45,11 @@ var Plane = function (options) {
             dataBus.remove(evt.target);
         }
         else if (evt.target instanceof Bomb) {
-            dataBus.sound.play("getbomb");
-            me.bombs++;
-            dataBus.remove(evt.target);
+            if (me.bombs < 9) {
+                dataBus.sound.play("getbomb");
+                me.bombs++;
+                dataBus.remove(evt.target);
+            }
         }
     });
 };
@@ -74,6 +77,15 @@ Plane.prototype.fire = function () {
     b2.position.x -= b2.width / 2;
 
     return [b1, b2];
+};
+
+Plane.prototype.dropBomb = function () {
+    var me = this;
+    if ((Date.now() - me.bombTime) < 0.2 * 1000 || me.bombs === 0) return;
+    me.dispatchEvent("dropBomb", { target: me });
+    dataBus.sound.play("usebomb");
+    me.bombs--;
+    me.bombTime = Date.now();
 };
 
 /**
@@ -106,6 +118,9 @@ Plane.prototype.normalAnimation = function () {
 Plane.prototype.explodeAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.1 * 1000) {
+
+        if (me.sPosition.y === 2 * me.sHeight) dataBus.sound.play("gameover");
+
         if (me.sPosition.y === me.explodeAnimationTotal * me.sHeight) {
             me.onExplode();
             return;

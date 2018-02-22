@@ -21,7 +21,7 @@ ABullet.prototype.onFrame = function (evt) {
 
 ABullet.prototype.onCollision = function (evt) {
     var me = this;
-    if (me.owner !== evt.target) {
+    if (me.owner !== evt.target && evt.target instanceof AEnemy) {
         dataBus.remove(me);
     }
 };

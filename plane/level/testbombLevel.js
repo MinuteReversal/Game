@@ -27,32 +27,21 @@ Level1.prototype.generate = function (timestamp) {
     if (++me.count === 40) {
         me.count = 0;
         var e = null;
-        var r = parseInt(me.getRandomArbitrary(1, 5));
+        var r = parseInt(me.getRandomArbitrary(1, 4));
         if (r === 1) {
-            e = new Enemy1();
+            //e = new Enemy1();
+            e = new Bomb();
         }
         else if (r === 2) {
-            e = new Enemy2();
+            //e = new Enemy2();
+            e = new DoubleLaser();
         }
         else if (r === 3) {
-            e = new Enemy3();
+            //e = new Enemy3();
+            e = new Enemy1();
         }
-        else if (r === 4) {
-            var r2 = parseInt(me.getRandomArbitrary(1, 5));
-            if (r2 === 2) {
-                e = new DoubleLaser();
-            }
-            else if (r2 === 4) {
-                e = new Bomb();
-            }
-            else {
-                return null;
-            }
-        }
-
         e.position.x = me.getRandomArbitrary(0, me.width - e.width);
         e.position.y = -e.height;
-
 
         if (me.isEgdeCollision(e)) return null;
         return e;

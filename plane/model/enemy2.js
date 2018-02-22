@@ -23,7 +23,6 @@ var Enemy2 = function (options) {
         if (evt.target instanceof ABullet) {
             if (me.hp > 0) {
                 --me.hp;
-                if (me.hp === 0) dataBus.sound.play("enemy3down");
             }
         }
     });
@@ -65,6 +64,8 @@ Enemy2.prototype.damageAnimation = function () {
 Enemy2.prototype.explodeAnimation = function () {
     var me = this;
     if (Date.now() - me.lastAnimation > 0.1 * 1000) {
+        if (me.sPosition.y === 2 * me.sHeight) dataBus.sound.play("enemy3down");
+
         if (me.sPosition.y === me.explodeAnimationTotal * me.sHeight) {
             me.onExplode();
             return;

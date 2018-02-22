@@ -12,7 +12,7 @@
 var Game = function (options) {
     var me = this;
     me.isPause = false;
-    me.isDrawBox = true;
+    me.isDrawBox = false;
     me.showFps = false;
     me.keyboard = null;
     me.mouse = null;
@@ -32,6 +32,7 @@ var Game = function (options) {
     me.fps = 0;
     me.score = 0;
     me.scoreList = [];
+    me.bombList = [];
     me.timer = null;
 
     dataBus.scale = me.width / 1136 < 0.5 ? 0.5 : me.width / 1136;
@@ -138,10 +139,13 @@ Game.prototype.start = function () {
     try {
         dataBus.list = [];
         me.scoreList = [];
+        me.bombList = [];
         me.score = 0;
+        me.bombs = 0;
         me.addBackground();
         me.addScore();
         me.addPlayer1();
+        me.addBombButton();
         me.sound.play("bgm", true);
 
         if (!me.timer) me.loop(); else me.isPause = false;
@@ -237,6 +241,7 @@ Game.prototype.draw = function () {
     }
 
     me.drawScore();
+    me.drawBomb();
 
     if (me.showFps) {
         if (now - me.lastTime >= 1000) {
@@ -267,6 +272,34 @@ Game.prototype.drawScore = function () {
             j++;
         }
     }
+};
+
+Game.prototype.drawBomb = function () {
+    var me = this;
+    if (me.player1 !== null) {
+        me.bombList[2].number = me.player1.bombs;
+    }
+};
+
+Game.prototype.addBombButton = function () {
+    var me = this;
+    var bb = new BombButton({ position: { x: 0 } });
+    bb.position.y = me.height - bb.height;
+
+    var c = new Cross({ position: { x: bb.width } });
+    c.position.y = me.height - c.height;
+
+    var n = new NumberText();
+    n.position.x = bb.width + c.width;
+    n.position.y = me.height - n.height;
+
+    me.bombList.push(bb);
+    me.bombList.push(c);
+    me.bombList.push(n);
+
+    dataBus.add(bb);
+    dataBus.add(c);
+    dataBus.add(n);
 };
 
 /**
@@ -311,6 +344,16 @@ Game.prototype.addPlayer1 = function () {
         me.isPause = true;
         dataBus.sound.pause();
     });
+
+    plane.addEventListener("dropBomb", function (evt) {
+        for (var i = 0, item; item = dataBus.list[i]; i++) {
+            if (item instanceof AEnemy) {
+                item.hp = 0;
+                item.explodeAnimation();
+            }
+        }
+    });
+
     me.player1 = plane;
     dataBus.add(me.player1);
 };
@@ -325,6 +368,7 @@ Game.prototype.keyboardWatch = function () {
         if (kbd.KeyS && player1.position.y + player1.height < me.height) player1.position.y += player1.speed;
         if (kbd.KeyD && player1.position.x + player1.width < me.width) player1.position.x += player1.speed;
         if (kbd.KeyJ) dataBus.list = dataBus.list.concat(player1.fire());
+        if (kbd.KeyK) player1.dropBomb();
     }
 };
 
