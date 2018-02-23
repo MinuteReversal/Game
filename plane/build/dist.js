@@ -63,7 +63,8 @@ buildOne(
 
 //复制图片和音频
 var resources = [
-    "resource/touch-icon-ipad.png"
+    "favicon.ico"
+    , "resource/touch-icon-ipad.png"
     , "resource/touch-icon-iphone-retina.png"
     , "resource/touch-icon-ipad-retina.png"
     , "resource/resource.png"

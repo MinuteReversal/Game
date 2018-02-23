@@ -82,9 +82,8 @@ Enemy3.prototype.damageAnimation = function () {
 
 Enemy3.prototype.explodeAnimation = function () {
     var me = this;
-
     if (me.sPosition.x === 926) {
-        dataBus.sound.play("enemy2down")
+        dataBus.sound.play("enemy2down");
         me.sPosition = {
             x: 926 + me.sWidth,
             y: 1

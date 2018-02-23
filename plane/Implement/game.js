@@ -22,7 +22,7 @@ var Game = function (options) {
     me.player1 = null;
     me.player2 = null;
     me.resources = null;
-    me.canvas = me.createCanvas(options.width, options.height);
+    me.canvas = options.canvas ? options.canvas : me.createCanvas(options.width, options.height);
     me.context = me.canvas.getContext("2d");
     me.map = new Level1({ width: options.width, height: options.height });
     me.width = options.width;
@@ -34,6 +34,7 @@ var Game = function (options) {
     me.scoreList = [];
     me.bombList = [];
     me.timer = null;
+    me.fixSound = false;
 
     dataBus.scale = me.width / 1136 < 0.5 ? 0.5 : me.width / 1136;
 
@@ -82,7 +83,10 @@ Game.prototype.touchToStart = function () {
     btn.width = me.width / 4;
     btn.height = 20 / 80 * me.width / 4;
     btn.addEventListener("click", function () {
-        dataBus.sound.fixIOSCantPlay();
+        if (!me.fixSound) {
+            dataBus.sound.fixIOSCantPlay();
+            me.fixSound = true;
+        }
         me.start();
     });
 
