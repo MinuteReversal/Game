@@ -1,0 +1,25 @@
+CACHE MANIFEST
+#/*Fri, 23 Feb 2018 09:36:57 GMT*/
+js/app.min.js
+favicon.ico
+resource/touch-icon-ipad.png
+resource/touch-icon-iphone-retina.png
+resource/touch-icon-ipad-retina.png
+resource/resource.png
+resource/number.png
+resource/face.png
+resource/common.png
+resource/game_music.mp3
+resource/bullet.mp3
+resource/enemy1_down.mp3
+resource/enemy2_down.mp3
+resource/enemy2_out.mp3
+resource/enemy3_down.mp3
+resource/game_over.mp3
+resource/get_bomb.mp3
+resource/use_bomb.mp3
+resource/get_double_laser.mp3
+resource/get_bomb.mp3
+NETWORK:
+*
+FALLBACK:
