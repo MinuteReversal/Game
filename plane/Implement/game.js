@@ -375,10 +375,22 @@ Game.prototype.keyboardWatch = function () {
 Game.prototype.touchWatch = function () {
     var me = this;
     var player1 = me.player1;
-    var touchPoint = me.touch.list[0];
-    if (touchPoint && player1.inBox(touchPoint)) {
-        player1.position.x = touchPoint.x - player1.width / 2;
-        player1.position.y = touchPoint.y - player1.height / 2;
+    var touchPlayer1 = me.findTouchPoint(player1);
+    if (touchPlayer1) {
+        player1.position.x = touchPlayer1.x - player1.width / 2;
+        player1.position.y = touchPlayer1.y - player1.height / 2;
         dataBus.list = dataBus.list.concat(player1.fire());
     }
+    var touchBomb = me.findTouchPoint(me.bombList[0]);
+    if (touchBomb) {
+        player1.dropBomb();
+    }
+};
+
+Game.prototype.findTouchPoint = function (model) {
+    var me = this;
+    for (var i = 0, item; item = me.touch.list[i]; i++) {
+        if (model.inBox(item)) return item;
+    }
+    return null;
 };
