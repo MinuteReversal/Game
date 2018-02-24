@@ -63,25 +63,36 @@ buildOne(
 
 //复制图片和音频
 var resources = [
-    "favicon.ico"
-    , "resource/touch-icon-ipad.png"
-    , "resource/touch-icon-iphone-retina.png"
-    , "resource/touch-icon-ipad-retina.png"
-    , "resource/resource.png"
-    , "resource/number.png"
-    , "resource/face.png"
-    , "resource/common.png"
-    , "resource/game_music.mp3"
-    , "resource/bullet.mp3"
-    , "resource/enemy1_down.mp3"
-    , "resource/enemy2_down.mp3"
-    , "resource/enemy2_out.mp3"
-    , "resource/enemy3_down.mp3"
-    , "resource/game_over.mp3"
-    , "resource/get_bomb.mp3"
-    , "resource/use_bomb.mp3"
-    , "resource/get_double_laser.mp3"
-    , "resource/get_bomb.mp3"
+    "favicon.ico",
+    "resource/touch-icon-ipad.png",
+    "resource/touch-icon-iphone-retina.png",
+    "resource/touch-icon-ipad-retina.png",
+    "resource/bg.png",
+    "resource/plane.png",
+    "resource/enemy1.png",
+    "resource/enemy2.png",
+    "resource/enemy3.png",
+    "resource/enemy3explode.png",
+    "resource/bullet1.png",
+    "resource/bullet2.png",
+    "resource/doubleLaser.png",
+    "resource/bomb.png",
+    "resource/bombButton.png",
+    "resource/cross.png",
+    "resource/number.png",
+    "resource/face.png",
+    "resource/common.png",
+    "resource/game_music.mp3",
+    "resource/bullet.mp3",
+    "resource/enemy1_down.mp3",
+    "resource/enemy2_down.mp3",
+    "resource/enemy2_out.mp3",
+    "resource/enemy3_down.mp3",
+    "resource/game_over.mp3",
+    "resource/get_bomb.mp3",
+    "resource/use_bomb.mp3",
+    "resource/get_double_laser.mp3",
+    "resource/get_bomb.mp3"
 ];
 
 if (!fs.existsSync(`${distPath}/resource`)) fs.mkdir(`${distPath}/resource`, () => { });

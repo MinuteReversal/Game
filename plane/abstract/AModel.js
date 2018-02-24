@@ -25,7 +25,7 @@ var AModel = function () {
     me.image = null;
 
     if (typeof arguments[0] === "object") {
-        for (p in arguments[0]) {
+        for (var p in arguments[0]) {
             me[p] = arguments[0][p];
         }
     }

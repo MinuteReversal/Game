@@ -6,12 +6,11 @@
 var Enemy3 = function (options) {
     AEnemy.apply(this, arguments);
     var me = this;
-    me.image = dataBus.resource.get("bg").entity;
+    me.image = dataBus.resource.get("enemy3").entity;
     me.width = 218 * dataBus.scale;
     me.height = 330 * dataBus.scale;
     me.sWidth = 218;
     me.sHeight = 330;
-    me.sPosition.x = 926;
     me.rotate = 180;
     me.speed = 3;
     me.name = "Enemy3";
@@ -82,16 +81,17 @@ Enemy3.prototype.damageAnimation = function () {
 
 Enemy3.prototype.explodeAnimation = function () {
     var me = this;
-    if (me.sPosition.x === 926) {
+    if (me.sPosition.x === 0) {
         dataBus.sound.play("enemy2down");
+        me.image = dataBus.resource.get("enemy3explode").entity;
         me.sPosition = {
-            x: 926 + me.sWidth,
-            y: 1
+            x: 0,
+            y: 0
         };
     }
 
     if (Date.now() - me.lastAnimation > 0.1 * 1000) {
-        if (me.sPosition.x === 926 + me.explodeAnimationTotal * me.sWidth) {
+        if (me.sPosition.x === me.explodeAnimationTotal * me.sWidth) {
             me.onExplode();
             return;
         }

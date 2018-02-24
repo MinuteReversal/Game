@@ -6,12 +6,11 @@
 var Enemy2 = function (options) {
     AEnemy.apply(this, arguments);
     var me = this;
-    me.image = dataBus.resource.get("bg").entity;
+    me.image = dataBus.resource.get("enemy2").entity;
     me.width = 90 * dataBus.scale;
     me.height = 115 * dataBus.scale;
     me.sWidth = 90;
     me.sHeight = 115;
-    me.sPosition.x = 834;
     me.rotate = 180;
     me.speed = 3;
     me.name = "Enemy2";

@@ -10,12 +10,11 @@
 var Plane = function (options) {
     AModel.apply(this, arguments);
     var me = this;
-    me.image = dataBus.resource.get("bg").entity;
+    me.image = dataBus.resource.get("plane").entity;
     me.width = 128 * dataBus.scale;
     me.height = 166 * dataBus.scale;
     me.sWidth = 128;
     me.sHeight = 166;
-    me.sPosition.x = 640;
     me.bulletType = 1;
     me.speed = 3;
     me.hp = 1;

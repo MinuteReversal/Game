@@ -9,11 +9,11 @@
  * @class TouchListener
  * @returns {touch} 
  */
-var TouchListener = function () {
+var TouchListener = function (obj) {
     var me = this;
     me.list = [];
 
-    window.addEventListener("touchstart", function (evt) {
+    obj.addEventListener("touchstart", function (evt) {
         evt.preventDefault();
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
             if (me.find(item.identifier) === null) {
@@ -26,7 +26,7 @@ var TouchListener = function () {
         }
     });
 
-    window.addEventListener("touchmove", function (evt) {
+    obj.addEventListener("touchmove", function (evt) {
         evt.preventDefault();
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
             var p = me.find(item.identifier);
@@ -37,7 +37,7 @@ var TouchListener = function () {
         }
     });
 
-    window.addEventListener("touchend", function (evt) {
+    obj.addEventListener("touchend", function (evt) {
         evt.preventDefault();
 
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
@@ -49,7 +49,7 @@ var TouchListener = function () {
         }
     });
 
-    window.addEventListener("touchcancel", function (evt) {
+    obj.addEventListener("touchcancel", function (evt) {
         evt.preventDefault();
         for (var i = 0, item; item = evt.changedTouches[i]; i++) {
             var storedTouch = me.find(item.identifier);

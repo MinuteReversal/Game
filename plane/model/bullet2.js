@@ -5,15 +5,11 @@
 var Bullet2 = function (options) {
     ABullet.apply(this, arguments);
     var me = this;
-    me.image = dataBus.resource.get("bg").entity;
+    me.image = dataBus.resource.get("bullet2").entity;
     me.width = 13 * dataBus.scale;
     me.height = 28 * dataBus.scale;
     me.sWidth = 13
     me.sHeight = 28;
-    me.sPosition = {
-        x: 1007,
-        y: 1107
-    };
     me.speed = 10;
     me.name = "Bullet2";
 };

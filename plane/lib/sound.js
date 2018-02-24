@@ -14,7 +14,7 @@ var Sound = function () {
 
 Sound.prototype.loadList = function (list) {
     var me = this;
-    for (var i = 0,item; item = list[i]; i++) {
+    for (var i = 0, item; item = list[i]; i++) {
         if (item.src.indexOf(".mp3") > -1) {
             me.list[item.key] = item.entity;
         }
@@ -34,7 +34,7 @@ Sound.prototype.play = function (key, isLoop) {
 
 Sound.prototype.playAll = function () {
     var me = this;
-    for (key in me.list) {
+    for (var key in me.list) {
         me.list[key].play();
     }
 };
@@ -42,7 +42,7 @@ Sound.prototype.playAll = function () {
 Sound.prototype.pause = function () {
     var me = this;
     me.isPause = true;
-    for (key in me.list) {
+    for (var key in me.list) {
         me.list[key].pause();
     }
 };
@@ -50,14 +50,14 @@ Sound.prototype.pause = function () {
 Sound.prototype.continue = function () {
     var me = this;
     me.isPause = false;
-    for (key in me.list) {
+    for (var key in me.list) {
         me.list[key].play();
     }
 };
 
 Sound.prototype.stop = function () {
     var me = this;
-    for (key in me.list) {
+    for (var key in me.list) {
         var a = me.list[key];
         a.pause();
         a.currentTime = 0;

@@ -1,11 +1,22 @@
 CACHE MANIFEST
-#/*Fri, 23 Feb 2018 08:55:57 GMT*/
+#/*Sat, 24 Feb 2018 04:11:31 GMT*/
 js/app.min.js
 favicon.ico
 resource/touch-icon-ipad.png
 resource/touch-icon-iphone-retina.png
 resource/touch-icon-ipad-retina.png
-resource/resource.png
+resource/bg.png
+resource/plane.png
+resource/enemy1.png
+resource/enemy2.png
+resource/enemy3.png
+resource/enemy3explode.png
+resource/bullet1.png
+resource/bullet2.png
+resource/doubleLaser.png
+resource/bomb.png
+resource/bombButton.png
+resource/cross.png
 resource/number.png
 resource/face.png
 resource/common.png

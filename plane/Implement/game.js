@@ -48,8 +48,8 @@ var Game = function (options) {
         me.dispatchClick({ x: me.mouse.X, y: me.mouse.Y });
     });
     me.canvas.addEventListener("touchend", function (evt) {
-        var t = me.touch.list[0];
-        if (t) me.dispatchClick({ x: t.x, y: t.y });
+        var t = evt.changedTouches[0];
+        if (t) me.dispatchClick({ x: t.clientX, y: t.clientY });
     });
 
     me.resource.addEventListener("complete", function (evt) {
@@ -140,24 +140,24 @@ Game.prototype.gameover = function () {
  */
 Game.prototype.start = function () {
     var me = this;
-    try {
-        dataBus.list = [];
-        me.scoreList = [];
-        me.bombList = [];
-        me.score = 0;
-        me.bombs = 0;
-        me.addBackground();
-        me.addScore();
-        me.addPlayer1();
-        me.addBombButton();
-        me.sound.play("bgm", true);
+    //try {
+    dataBus.list = [];
+    me.scoreList = [];
+    me.bombList = [];
+    me.score = 0;
+    me.bombs = 0;
+    me.addBackground();
+    me.addScore();
+    me.addPlayer1();
+    me.addBombButton();
+    me.sound.play("bgm", true);
 
-        if (!me.timer) me.loop(); else me.isPause = false;
-
-    }
-    catch (ex) {
-        alert(ex.message);
-    }
+    if (!me.timer) me.loop(); else me.isPause = false;
+    //    }
+    //    catch (ex) {
+    //        if (typeof alert !== "undefined") alert(ex.message);
+    //        else if (wx && typeof wx.showModal) wx.showModal({ title: "error", content: ex.message });
+    //    }
 };
 
 Game.prototype.createCanvas = function (width, height) {
@@ -256,7 +256,7 @@ Game.prototype.draw = function () {
         ++me.frameCount;
         me.context.save();
         me.context.strokeStyle = "black";
-        me.context.fillText("FPS:" + me.fps, 20, me.height - 20);
+        me.context.fillText("FPS:" + me.fps, me.width - 100, me.height - 20);
         me.context.restore();
     }
 

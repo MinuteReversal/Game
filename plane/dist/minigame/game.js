@@ -1,8 +1,19 @@
 import './js/weapp-adapter'
-import * as app from './js/app.min'
+import app from './js/app.min.js'
 
-dataBus.resource.list = [
-  { key: "bg", src: "resource/resource.png" },
+app.dataBus.resource.list = [
+  { key: "bg", src: "resource/bg.png" },
+  { key: "plane", src: "resource/plane.png" },
+  { key: "enemy1", src: "resource/enemy1.png" },
+  { key: "enemy2", src: "resource/enemy2.png" },
+  { key: "enemy3", src: "resource/enemy3.png" },
+  { key: "enemy3explode", src: "resource/enemy3explode.png" },
+  { key: "bullet1", src: "resource/bullet1.png" },
+  { key: "bullet2", src: "resource/bullet2.png" },
+  { key: "doubleLaser", src: "resource/doubleLaser.png" },
+  { key: "bomb", src: "resource/bomb.png" },
+  { key: "bombButton", src: "resource/bombButton.png" },
+  { key: "cross", src: "resource/cross.png" },
   { key: "number", src: "resource/number.png" },
   { key: "face", src: "resource/face.png" },
   { key: "common", src: "resource/common.png" },
@@ -19,10 +30,10 @@ dataBus.resource.list = [
   { key: "getbomb", src: "resource/get_bomb.mp3" }
 ];
 
-var game = new Game({
-  keyboard: new KeyboardListener(),
-  mouse: new MouseListener(),
-  touch: new TouchListener(),
+var game = new app.Game({
+  keyboard: new app.KeyboardListener(),
+  mouse: new app.MouseListener(),
+  touch: new app.TouchListener(canvas),
   canvas: canvas,
   width: innerWidth > 640 ? 640 : innerWidth,
   height: innerHeight > 1136 ? 1136 : innerHeight
