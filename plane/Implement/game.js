@@ -206,7 +206,6 @@ Game.prototype.generateEnermy = function (timeStamp) {
 
 Game.prototype.draw = function () {
     var me = this;
-    var now = Date.now();
     for (var i = 0, item; item = dataBus.list[i]; i++) {
         if (item.onFrame) {
             item.onFrame({ target: me });
@@ -248,19 +247,19 @@ Game.prototype.draw = function () {
     me.drawBomb();
 
     if (me.showFps) {
-        if (now - me.lastTime >= 1000) {
+        var now = Date.now();
+        ++me.frameCount;
+        if (now - me.lastTime >= 999) {
             me.fps = me.frameCount;
             me.lastTime = now;
             me.frameCount = 0;
         }
-        ++me.frameCount;
         me.context.save();
         me.context.strokeStyle = "black";
         me.context.fillText("FPS:" + me.fps, me.width - 100, me.height - 20);
         me.context.restore();
+
     }
-
-
 };
 
 Game.prototype.drawScore = function () {

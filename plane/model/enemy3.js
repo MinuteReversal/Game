@@ -20,14 +20,6 @@ var Enemy3 = function (options) {
     me.lastAnimation = 0;//timestamp
 
     dataBus.sound.play("enemy2out");
-
-    me.addEventListener("collision", function (evt) {
-        if (evt.target instanceof ABullet) {
-            if (me.hp > 0) {
-                --me.hp;
-            }
-        }
-    });
 };
 
 Enemy3.prototype = Object.create(AEnemy.prototype);

@@ -17,14 +17,6 @@ var Enemy1 = function (options) {
     me.hp = 1;
     me.explodeAnimationTotal = 4;
     me.lastAnimation = 0;
-
-    me.addEventListener("collision", function (evt) {
-        if (evt.target instanceof ABullet) {
-            if (me.hp > 0) {
-                --me.hp;
-            }
-        }
-    });
 };
 
 Enemy1.prototype = Object.create(AEnemy.prototype);
