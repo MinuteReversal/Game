@@ -7,9 +7,9 @@ var DoubleLaser = function () {
     var me = this;
     me.image = dataBus.resource.get("doubleLaser").entity;
     me.width = 73 * dataBus.scale;
-    me.height = 114 * dataBus.scale;
+    me.height = 113 * dataBus.scale;
     me.sWidth = 73;
-    me.sHeight = 114;
+    me.sHeight = 113;
 };
 
 DoubleLaser.prototype = Object.create(APowerUp.prototype);
