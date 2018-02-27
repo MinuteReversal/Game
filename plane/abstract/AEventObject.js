@@ -22,7 +22,7 @@ AEventObject.prototype.addEventListener = function (type, listener) {
     var me = this;
     me.listeners.push({
         type: type,
-        listeners: listener
+        listener: listener
     });
 };
 
@@ -67,7 +67,7 @@ AEventObject.prototype.dispatchEvent = function (type, event) {
     var me = this;
     for (var i = 0, item; item = me.listeners[i]; i++) {
         if (item.type === type) {
-            item.listeners(event);
+            item.listener(event);
         }
     }
 };
