@@ -29,6 +29,7 @@ var AModel = function () {
             me[p] = arguments[0][p];
         }
     }
+    me.addEventListener("frame", function (evt) { me.onFrame(evt); });
 };
 
 /**
@@ -83,7 +84,6 @@ AModel.prototype.getCenter = function () {
 
 AModel.prototype.onFrame = function (evt) {
     var me = this;
-
     var o = me.getCollision(me);
     if (o) {
         me.dispatchEvent("collision", { target: o });

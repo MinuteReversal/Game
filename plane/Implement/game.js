@@ -13,7 +13,7 @@ var Game = function (options) {
     var me = this;
     me.isPause = false;
     me.isDrawBox = false;
-    me.showFps = false;
+    me.showFps = true;
     me.keyboard = null;
     me.mouse = null;
     me.touch = null;
@@ -207,10 +207,6 @@ Game.prototype.generateEnermy = function (timeStamp) {
 Game.prototype.draw = function () {
     var me = this;
     for (var i = 0, item; item = dataBus.list[i]; i++) {
-        if (item.onFrame) {
-            item.onFrame({ target: me });
-        }
-
         if (typeof item.getCenter === "undefined") continue;
 
         var center = item.getCenter();
